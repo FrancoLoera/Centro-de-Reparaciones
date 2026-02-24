@@ -1,0 +1,12 @@
+venv/
+env/
+.venv/
+ENV/
+__pycache__/
+*.py[cod]
+*$py.class
+.env
+.env.*
+Thumbs.db
+Desktop.ini
+Documentación - Centro de Reparaciones.docx
