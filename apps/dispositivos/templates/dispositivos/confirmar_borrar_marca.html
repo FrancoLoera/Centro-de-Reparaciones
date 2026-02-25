@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Confirmar borrado de marca</title>
+  </head>
+  <body>
+    <h1>¿Borrar marca?</h1>
+
+    <p>
+      ¿Seguro que quieres borrar la marca:
+      <strong>{{ marca.nombre }}</strong>?
+    </p>
+
+    <form method="post">
+      {% csrf_token %}
+      <button type="submit">Sí, borrar</button>
+      <a href="{% url 'marcas_lista' %}">Cancelar</a>
+    </form>
+  </body>
+  </html>
+
+

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Dispositivos</title>
+  </head>
+  <body>
+    <h1>Dispositivos</h1>
+
+    <p>
+      <a href="{% url 'dispositivos_crear' %}">Registrar nuevo dispositivo</a>
+      |
+      <a href="{% url 'marcas_lista' %}">Ver / agregar marcas</a>
+    </p>
+
+    {% if dispositivos %}
+      <table border="1" cellpadding="4" cellspacing="0">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Alias</th>
+            <th>Marca</th>
+            <th>Color</th>
+            <th>Número de serie</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for d in dispositivos %}
+            <tr>
+              <td>{{ d.id_dispositivo }}</td>
+              <td>{{ d.alias }}</td>
+              <td>{{ d.marca.nombre }}</td>
+              <td>{{ d.color }}</td>
+              <td>{{ d.numero_serie|default:"-" }}</td>
+              <td>
+                <a href="{% url 'dispositivos_editar' d.id_dispositivo %}">Editar</a>
+                |
+                <a href="{% url 'dispositivos_borrar' d.id_dispositivo %}">Borrar</a>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    {% else %}
+      <p>No hay dispositivos registrados.</p>
+    {% endif %}
+  </body>
+  </html>
+
+

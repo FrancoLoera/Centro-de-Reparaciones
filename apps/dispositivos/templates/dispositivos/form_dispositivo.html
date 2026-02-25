@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Nuevo dispositivo</title>
+  </head>
+  <body>
+    <h1>Registrar dispositivo</h1>
+
+    <form method="post">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button type="submit">Guardar</button>
+    </form>
+
+    <p>
+      <a href="{% url 'dispositivos_lista' %}">Volver al listado</a>
+      |
+      <a href="{% url 'marcas_crear' %}">Agregar nueva marca</a>
+    </p>
+  </body>
+  </html>
+
+
