@@ -10,4 +10,3 @@ class Tipo_Dispositivo(models.Model):
 class Tipo_Soporte(models.TextChoices):
     HARDWARE = "HARDWARE", "Hardware"
     SOFTWARE = "SOFTWARE", "Software"
-    AMBOS = "AMBOS", "Ambos"
