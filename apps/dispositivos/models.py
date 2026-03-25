@@ -1,4 +1,5 @@
 from django.db import models
+from apps.clientes.models import Cliente
 
 
 class Marca(models.Model):
@@ -10,8 +11,8 @@ class Marca(models.Model):
     - nombre VARCHAR(30) UNIQUE
     """
 
-    id_marca = models.AutoField(primary_key=True)
-    nombre = models.CharField(max_length=30, unique=True)
+    id_marca = models.AutoField(primary_key=True, db_column="idMarca")
+    nombre = models.CharField(max_length=30, unique=True, db_column="nombre")
 
     class Meta:
         db_table = "marca"
@@ -34,7 +35,7 @@ class Dispositivo(models.Model):
     - marca TINYINT UNSIGNED FK -> MARCA.idMarca
     """
 
-    id_dispositivo = models.AutoField(primary_key=True)
+    id_dispositivo = models.AutoField(primary_key=True, db_column="idDispositivo")
     alias = models.CharField(max_length=100)
     numero_serie = models.CharField(
         max_length=50,
@@ -47,6 +48,14 @@ class Dispositivo(models.Model):
         Marca,
         on_delete=models.PROTECT,
         related_name="dispositivos",
+    )
+    cliente = models.ForeignKey(
+        Cliente,
+        on_delete=models.PROTECT,
+        related_name="dispositivos",
+        db_column="idCliente",
+        null=True,
+        blank=True,
     )
 
     class Meta:

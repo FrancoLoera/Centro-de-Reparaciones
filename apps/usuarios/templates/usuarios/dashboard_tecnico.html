@@ -1,0 +1,100 @@
+{% extends "base.html" %}
+{% block title %}Panel técnico{% endblock %}
+{% block content %}
+  <div class="mb-4">
+    <h1 class="h2 text-secondary">Panel del técnico</h1>
+    <p class="text-muted mb-0">
+      Sesión: <strong>{{ request.user.correo }}</strong> ({{ request.user.username }})
+    </p>
+  </div>
+
+  <div class="row g-3">
+    <div class="col-md-6 col-lg-4">
+      <div class="card card-cr h-100">
+        <div class="card-header">Clientes</div>
+        <div class="card-body d-flex flex-column">
+          <p class="text-muted small flex-grow-1">Alta y listado de clientes del taller.</p>
+          <div class="d-grid gap-2">
+            <a href="{% url 'clientes_crear' %}" class="btn btn-cr-primary btn-sm">Agregar cliente</a>
+            <a href="{% url 'clientes_lista' %}" class="btn btn-outline-secondary btn-sm">Ver clientes</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6 col-lg-4">
+      <div class="card card-cr h-100">
+        <div class="card-header">Dispositivos</div>
+        <div class="card-body d-flex flex-column">
+          <p class="text-muted small flex-grow-1">Equipos y marcas registradas.</p>
+          <div class="d-grid gap-2">
+            <a href="{% url 'dispositivos_crear' %}" class="btn btn-cr-primary btn-sm">Agregar dispositivo</a>
+            <a href="{% url 'dispositivos_lista' %}" class="btn btn-outline-secondary btn-sm">Ver dispositivos</a>
+            <a href="{% url 'marcas_lista' %}" class="btn btn-outline-secondary btn-sm">Marcas</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6 col-lg-4">
+      <div class="card card-cr h-100">
+        <div class="card-header">Órdenes</div>
+        <div class="card-body d-flex flex-column">
+          <p class="text-muted small flex-grow-1">Órdenes de trabajo y seguimiento.</p>
+          <div class="d-grid gap-2">
+            <a href="{% url 'ordenes_crear' %}" class="btn btn-cr-primary btn-sm">Crear orden</a>
+            <a href="{% url 'ordenes_lista' %}" class="btn btn-outline-secondary btn-sm">Ver órdenes</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card card-cr mt-4">
+    <div class="card-body small text-muted">
+      La administración de usuarios, técnicos y configuración la realiza el gestionador en
+      <a href="{% url 'admin:index' %}">Administración Django</a> (no desde este panel).
+    </div>
+  </div>
+  
+  <div class="card card-cr mt-4">
+    <div class="card-header">Órdenes recientes</div>
+    <div class="card-body">
+      {% if ordenes_recientes %}
+        <div class="table-responsive">
+          <table class="table table-sm">
+            <thead>
+              <tr>
+                  <th>idOrden</th>
+                  <th>codigoSeguimiento</th>
+                  <th>idCliente - nombreCompleto</th>
+                  <th>Acciones rápidas</th>
+                </tr>
+            </thead>
+            <tbody>
+              {% for orden in ordenes_recientes %}
+                <tr>
+                  <td>{{ orden.id_orden }}</td>
+                  <td>{{ orden.codigo_seguimiento }}</td>
+                  <td>{{ orden.cliente.id_cliente }} - {{ orden.cliente.nombre_completo }}</td>
+                  <td>{% if orden.dispositivo %}{{ orden.dispositivo.id_dispositivo }} - {{ orden.dispositivo.alias }}{% else %}—{% endif %}</td>
+                  <td>
+                    <div class="d-flex gap-1">
+                      {% for est in estatuses %}
+                        <form method="post" action="{% url 'ordenes_cambiar_estatus' orden.pk %}">
+                          {% csrf_token %}
+                          <input type="hidden" name="estatus" value="{{ est.pk }}">
+                          <button type="submit" class="btn btn-sm {% if orden.estatus and orden.estatus.pk == est.pk %}btn-cr-primary{% else %}btn-outline-secondary{% endif %}">{{ est.nombre }}</button>
+                        </form>
+                      {% endfor %}
+                    </div>
+                  </td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      {% else %}
+        <p class="text-muted small mb-0">No hay órdenes registradas todavía.</p>
+      {% endif %}
+    </div>
+  </div>
+{% endblock %}

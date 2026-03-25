@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block title %}Órdenes{% endblock %}
+{% block content %}
+  <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-4">
+    <h1 class="h2 text-secondary mb-0">Órdenes</h1>
+    <div class="btn-group flex-wrap">
+      <a href="{% url 'dashboard_tecnico' %}" class="btn btn-outline-secondary btn-sm">Panel</a>
+      <a href="{% url 'ordenes_crear' %}" class="btn btn-cr-primary btn-sm">Crear orden</a>
+    </div>
+  </div>
+
+  <div class="card card-cr">
+    <div class="card-header">Listado de órdenes</div>
+    <div class="card-body p-0">
+      {% if ordenes %}
+        <div class="table-responsive">
+          <table class="table table-hover table-cr mb-0">
+            <thead>
+              <tr>
+                <th>idOrden</th>
+                <th>codigoSeguimiento</th>
+                <th>idCliente - nombreCompleto</th>
+                <th>idDispositivo - alias</th>
+                <th>idEstatusOrdenDispositivo - nombre</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for o in ordenes %}
+                <tr>
+                  <td>{{ o.id_orden }}</td>
+                  <td><code>{{ o.codigo_seguimiento }}</code></td>
+                  <td>{{ o.cliente.id_cliente }} - {{ o.cliente.nombre_completo }}</td>
+                  <td>{% if o.dispositivo %}{{ o.dispositivo.id_dispositivo }} - {{ o.dispositivo.alias }}{% else %}—{% endif %}</td>
+                  <td>{% if o.estatus %}{{ o.estatus.id_estatus }} - {{ o.estatus.nombre }}{% else %}—{% endif %}</td>
+                  <td class="text-end">
+                    <a href="{% url 'ordenes_editar' o.pk %}" class="btn btn-sm btn-outline-secondary">Editar</a>
+                    <a href="{% url 'ordenes_borrar' o.pk %}" class="btn btn-sm btn-outline-danger">Borrar</a>
+                  </td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      {% else %}
+        <p class="text-muted mb-0 p-3">No hay órdenes registradas.</p>
+      {% endif %}
+    </div>
+  </div>
+{% endblock %}

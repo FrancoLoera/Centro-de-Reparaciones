@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+{% block title %}Nueva orden{% endblock %}
+{% block content %}
+  <div class="row justify-content-center">
+    <div class="col-lg-7">
+      <div class="card card-cr">
+        <div class="card-header">Crear orden</div>
+        <div class="card-body">
+          <form method="post" novalidate>
+            {% csrf_token %}
+            <div class="mb-3">
+              <label class="form-label" for="id_cliente">{{ form.cliente.label }}</label>
+              {{ form.cliente }}
+              {% if form.cliente.errors %}<div class="text-danger small">{{ form.cliente.errors }}</div>{% endif %}
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label" for="id_dispositivo">{{ form.dispositivo.label }}</label>
+              <select name="dispositivo" id="id_dispositivo" class="form-select"> 
+                <option value="">---------</option>
+                {% for d in dispositivos %}
+                  <option value="{{ d.pk }}" data-cliente="{{ d.cliente.id_cliente }}" {% if form.dispositivo.value|stringformat:"s" == d.pk|stringformat:"s" %}selected{% endif %}>{{ d.id_dispositivo }} - {{ d.alias }}</option>
+                {% endfor %}
+              </select>
+              {% if form.dispositivo.errors %}<div class="text-danger small">{{ form.dispositivo.errors }}</div>{% endif %}
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label" for="id_estatus">{{ form.estatus.label }}</label>
+              {{ form.estatus }}
+              {% if form.estatus.errors %}<div class="text-danger small">{{ form.estatus.errors }}</div>{% endif %}
+            </div>
+            <div class="d-flex flex-wrap gap-2 mt-4">
+              <button type="submit" class="btn btn-cr-primary">Guardar</button>
+              <a href="{% url 'ordenes_lista' %}" class="btn btn-outline-secondary">Ver órdenes</a>
+              <a href="{% url 'dashboard_tecnico' %}" class="btn btn-link text-secondary">Panel</a>
+               <a href="{% url 'seguimiento:estatus_list' %}" class="btn btn-link text-secondary">Administrar estatus</a>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+    (function(){
+      const clienteSelect = document.getElementById('id_cliente');
+      const dispositivoSelect = document.getElementById('id_dispositivo');
+
+      function filterDevices(){
+        const sel = clienteSelect.value;
+        let foundSelected = false;
+        for(const opt of dispositivoSelect.options){
+          const clienteId = opt.getAttribute('data-cliente');
+          if(!clienteId){
+            // keep placeholder
+            continue;
+          }
+          if(sel === '' || clienteId === sel){
+            opt.hidden = false;
+            opt.disabled = false;
+            if(opt.selected) foundSelected = true;
+          } else {
+            opt.hidden = true;
+            opt.disabled = true;
+          }
+        }
+        // If current selected device does not belong to cliente, clear it
+        if(dispositivoSelect.value){
+          const current = dispositivoSelect.selectedOptions[0];
+          if(current && current.disabled){
+            dispositivoSelect.value = '';
+          }
+        }
+      }
+
+      if(clienteSelect && dispositivoSelect){
+        clienteSelect.addEventListener('change', filterDevices);
+        // initial filter on load
+        filterDevices();
+      }
+    })();
+  </script>
+{% endblock %}

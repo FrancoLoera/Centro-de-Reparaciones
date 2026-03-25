@@ -1,3 +1,98 @@
-from django.shortcuts import render
+from django import forms
+from django.shortcuts import redirect, render
 
-# Create your views here.
+from apps.clientes.models import Cliente
+from apps.core.forms import BootstrapModelForm
+from apps.usuarios.utils import solo_tecnicos
+
+from .models import Orden
+from apps.seguimiento.models import EstatusOrdenDispositivo
+from apps.dispositivos.models import Dispositivo
+from django.shortcuts import get_object_or_404
+from django.views.decorators.http import require_POST
+from apps.seguimiento.models import EstatusOrdenDispositivo
+
+
+class OrdenForm(BootstrapModelForm):
+    class Meta:
+        model = Orden
+        fields = ["cliente", "dispositivo", "estatus"]
+        labels = {"cliente": "idCliente", "dispositivo": "idDispositivo", "estatus": "idEstatusOrdenDispositivo"}
+
+    def clean(self):
+        cleaned = super().clean()
+        cliente = cleaned.get('cliente')
+        dispositivo = cleaned.get('dispositivo')
+        if dispositivo and cliente and getattr(dispositivo, 'cliente_id', None) != cliente.id_cliente:
+            raise forms.ValidationError('El dispositivo seleccionado no pertenece al cliente indicado.')
+        if not cliente:
+            raise forms.ValidationError('Debe seleccionar un cliente.')
+        if not dispositivo:
+            raise forms.ValidationError('Debe seleccionar un dispositivo.')
+        if not cleaned.get('estatus'):
+            raise forms.ValidationError('Debe seleccionar un estado para la orden.')
+        return cleaned
+
+
+@solo_tecnicos
+def lista_ordenes(request):
+    ordenes = Orden.objects.select_related("cliente").all().order_by("-id_orden")
+    return render(request, "ordenes/lista_ordenes.html", {"ordenes": ordenes})
+
+
+@solo_tecnicos
+def crear_orden(request):
+    if not Cliente.objects.exists():
+        return redirect("clientes_crear")
+    if not Dispositivo.objects.exists():
+        return redirect("dispositivos_crear")
+    if not EstatusOrdenDispositivo.objects.exists():
+        return redirect("admin:index")
+
+    dispositivos = Dispositivo.objects.select_related('cliente').all()
+
+    if request.method == "POST":
+        form = OrdenForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect("ordenes_lista")
+    else:
+        form = OrdenForm()
+
+    return render(request, "ordenes/form_orden.html", {"form": form, "dispositivos": dispositivos})
+
+
+@solo_tecnicos
+def editar_orden(request, pk):
+    orden = get_object_or_404(Orden, pk=pk)
+    dispositivos = Dispositivo.objects.select_related('cliente').all()
+    if request.method == 'POST':
+        form = OrdenForm(request.POST, instance=orden)
+        if form.is_valid():
+            form.save()
+            return redirect('ordenes_lista')
+    else:
+        form = OrdenForm(instance=orden)
+    return render(request, 'ordenes/form_orden.html', {'form': form, 'dispositivos': dispositivos, 'orden': orden})
+
+
+@solo_tecnicos
+def borrar_orden(request, pk):
+    orden = get_object_or_404(Orden, pk=pk)
+    if request.method == 'POST':
+        orden.delete()
+        return redirect('ordenes_lista')
+    return render(request, 'ordenes/confirmar_borrar_orden.html', {'orden': orden})
+
+
+@solo_tecnicos
+@require_POST
+def cambiar_estatus(request, pk):
+    orden = get_object_or_404(Orden, pk=pk)
+    estatus_id = request.POST.get('estatus')
+    if not estatus_id:
+        return redirect('dashboard_tecnico')
+    est = get_object_or_404(EstatusOrdenDispositivo, pk=estatus_id)
+    orden.estatus = est
+    orden.save()
+    return redirect('dashboard_tecnico')
