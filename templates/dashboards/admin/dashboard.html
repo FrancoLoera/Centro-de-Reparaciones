@@ -5,7 +5,7 @@
 {% block extra_css %} <link rel="stylesheet" href="{% static 'css/dashboards/admin/dashboard.css' %}"> {% endblock %}
 
 {% block content %}
-<header class="floating-header">
+<header class="floating-header d-flex align-items-center justify-content-center gap-3">
     <div class="header-pill d-flex gap-3">
         <div class="menu-item position-relative">
             <a class="menu-pill d-flex align-items-center gap-2" href="#">
@@ -21,14 +21,14 @@
             </a>
             <div class="submenu">
                 <a href="#">Dispositivos</a>
-                <a href="#">Tipos de Dispositivos</a>
-                <a href="#">Marca</a>
+                <a href="#">Tipos de dispositivos</a>
+                <a href="#">Marcas</a>
             </div>
         </div>
         
         <div class="menu-item position-relative">
             <a class="menu-pill d-flex align-items-center gap-2" href="#">
-                <i class="bi bi-file-text"></i>
+                <i class="bi bi-person-fill"></i>
                 Clientes
             </a>
         </div>
@@ -44,11 +44,144 @@
             </div>
         </div>
     </div>
+    <a href="#"
+    onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
+    class="floating-logout d-flex align-items-center justify-content-center">
+        <div>
+            Salir <i class="fa-solid fa-arrow-right-from-bracket"></i>
+        </div>
+    </a>
+    <form id="logout-form" method="post" action="{% url 'logout' %}">
+        {% csrf_token %}
+    </form>
 </header>
 
 <main>
-    <section class="container vh-100 d-flex align-items-center justify-content-center">
+    <section class="container d-flex flex-column align-items-center justify-content-center" style="height: 70vh;">
         <h1 style="font-size: 4rem; font-weight: 100;">Bienvenido, <span style="font-family: 'Playwrite IE'; font-weight: bolder;">{{ request.user.username }}</span></h1>
+        <p style="font-style: italic;">Todo en orden por aquí. ¿Empezamos a gestionar?</p>
+    </section>
+    <section class="container d-flex flex-column align-items-center justify-content-center">
+        <h2 class="mb-0">Órdenes pendientes</h2>
+        <div class="table-responsive mt-2 w-75">
+            <table class="table align-middle tabla-dashboard">
+                <thead class="shadow-sm">
+                    <tr>
+                        <th>ID Orden</th>
+                        <th>Estatus</th>
+                        <th>Cliente</th>
+                        <th>Fecha inicio</th>
+                        <th>Fecha fin</th>
+                        <th>Técnico</th>
+                        <th class="text-center">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for od in ordenes %}
+                <tr>
+
+                <td>{{ od.orden.id }}</td>
+
+                <td>
+                <span class="badge
+                {% if od.estatus_actual == 'Recibido' %}
+                    bg-secondary
+                {% elif od.estatus_actual == 'En diagnóstico' %}
+                    bg-warning text-dark
+                {% elif od.estatus_actual == 'Reparando' %}
+                    bg-info
+                {% elif od.estatus_actual == 'Listo' %}
+                    bg-success
+                {% elif od.estatus_actual == 'Entregado' %}
+                    bg-dark
+                {% else %}
+                    bg-light text-dark
+                {% endif %}
+                ">
+                {{ od.estatus_actual|default:"Sin estatus" }}
+                </span>
+                </td>
+
+                <td>{{ od.orden.cliente.nombreCompleto }}</td>
+
+                <td>
+                    {% if od.fecha_inicio %}
+                        {{ od.fecha_inicio|date:"d/m/Y" }}
+                    {% else %}
+                        —
+                    {% endif %}
+                </td>
+
+                <td>
+                    {% if od.fecha_fin %}
+                        {{ od.fecha_fin|date:"d/m/Y" }}
+                    {% else %}
+                        <span class="text-muted">En proceso</span>
+                    {% endif %}
+                </td>
+
+                <td>
+                {{ od.tecnico_actual|default:"Sin asignar" }}
+                </td>
+
+                <td class="text-center">
+
+                    <div class="d-flex justify-content-center gap-2">
+
+                        <!-- Botón editar -->
+                        <a href="" class="d-flex align-items-center justify-content-center text-decoration-none icono-tabla">
+                        <i class="fa-solid fa-pen-to-square fs-6"></i>
+                        </a>
+
+                        <!-- Botón eliminar -->
+                        <form method="post" action="" class="m-0 p-0">
+                            {% csrf_token %}
+                            <button type="submit" class="d-flex align-items-center justify-content-center border-0 icono-tabla">
+                                <i class="fa-solid fa-trash fs-6"></i>
+                            </button>
+                        </form>
+
+                    </div>
+
+                </td>
+
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </section>
+    <section class="container d-flex flex-column align-items-center justify-content-center pb-5">
+        <h2></h2>
+        <div class="row mt-5 row-gap-4">
+            <div class="col-6 d-flex">
+                <div class="carta-elementos d-flex flex-column gap-2 flex-fill">
+                    <div class="d-flex gap-2 align-items-end mb-2"><i class="bi bi-file-text fs-2"></i><p class="mb-0 pb-1 fs-4 fw-bold">Órdenes</p></div>
+                    <a class="align-self-start" href="">Consultar panel<i class="bi bi-caret-right-fill ms-1"></i></a>
+                </div>
+            </div>
+            <div class="col-6 d-flex">
+                <div class="carta-elementos d-flex flex-column gap-2 flex-fill">
+                    <div class="d-flex gap-2 align-items-end mb-2"><i class="bi bi-person-fill fs-2"></i><p class="mb-0 pb-1 fs-4 fw-bold">Clientes</p></div>
+                    <a class="align-self-start" href="">Consultar panel<i class="bi bi-caret-right-fill ms-1"></i></a>
+                </div>
+            </div>
+            <div class="col-6 d-flex">
+                <div class="carta-elementos d-flex flex-column gap-2 flex-fill">
+                    <div class="d-flex gap-2 align-items-end mb-2"><i class="bi bi-pc-display fs-2"></i><p class="mb-0 pb-1 fs-4 fw-bold">Dispositivos</p></div>
+                    <a class="d-flex justify-content-between" href=""><span>Dispositivos</span><i class="bi bi-caret-right-fill"></i></a>
+                    <a class="d-flex justify-content-between" href="">Tipos de dispositivos<i class="bi bi-caret-right-fill"></i></a>
+                    <a class="d-flex justify-content-between" href=""><span>Marcas</span><i class="bi bi-caret-right-fill"></i></a>
+                </div>
+            </div>
+            <div class="col-6 d-flex">
+                <div class="carta-elementos d-flex flex-column gap-2 flex-fill">
+                    <div class="d-flex gap-2 align-items-end mb-2"><i class="bi bi-person-badge fs-2"></i><p class="mb-0 pb-1 fs-4 fw-bold">Técnicos</p></div>
+                    <a class="d-flex justify-content-between" href=""><span>Técnicos</span><i class="bi bi-caret-right-fill"></i></a>
+                    <a class="d-flex justify-content-between" href=""><span>Especializaciones</span><i class="bi bi-caret-right-fill"></i></a>
+                </div>
+            </div>
+        </div>
     </section>
 </main>
 
@@ -74,10 +207,10 @@ window.addEventListener("scroll", () => {
 });
 </script>
 
-<!-- <script>
+<script>
 const headerx = document.querySelector(".floating-header");
 document.body.style.paddingTop = header.offsetHeight + 40 + "px";
-</script> -->
+</script>
 {% endblock %}
 
 {% block extra_js %}{% endblock %}
