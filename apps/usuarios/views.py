@@ -43,14 +43,14 @@ def dashboard_admin(request):
         .values("estatus__nombre")[:1]
     )
     
-    tecnico_subquery = (
-    HistorialOrdenDispositivo.objects
-    .filter(
-        orden_dispositivo=OuterRef("pk"),
-        fecha_fin__isnull=True
-    )
-    .values("tecnico__nombre")[:1]
-)
+#     tecnico_subquery = (
+#     HistorialOrdenDispositivo.objects
+#     .filter(
+#         orden_dispositivo=OuterRef("pk"),
+#         fecha_fin__isnull=True
+#     )
+#     .values("tecnico__nombre")[:1]
+# )
 
     ordenes = (
     OrdenDispositivo.objects
@@ -60,7 +60,7 @@ def dashboard_admin(request):
     )
     .annotate(
         estatus_actual=Subquery(estatus_actual),
-        tecnico_actual=Subquery(tecnico_subquery)
+        # tecnico_actual=Subquery(tecnico_subquery)
     )
     .filter(
         historialordendispositivo__fecha_fin__isnull=True

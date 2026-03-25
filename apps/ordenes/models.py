@@ -11,7 +11,7 @@ class EstatusOrdenDispositivo(models.Model):
 
     class Meta:
         db_table = "estatus_orden_dispositivo"
-
+    
     def __str__(self):
         return self.nombre
 
