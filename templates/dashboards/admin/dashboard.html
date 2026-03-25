@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Dashboard{% endblock %}
+{% block extra_css %} <link rel="stylesheet" href="{% static 'css/dashboards/admin/dashboard.css' %}"> {% endblock %}
+
+{% block content %}
+<header class="floating-header">
+    <div class="header-pill d-flex gap-3">
+        <div class="menu-item position-relative">
+            <a class="menu-pill d-flex align-items-center gap-2" href="#">
+                <i class="bi bi-file-text"></i>
+                Órdenes
+            </a>
+        </div>
+
+        <div class="menu-item position-relative">
+            <a class="menu-pill d-flex align-items-center gap-2" href="#">
+                <i class="bi bi-pc-display"></i>
+                Dispositivos
+            </a>
+            <div class="submenu">
+                <a href="#">Dispositivos</a>
+                <a href="#">Tipos de Dispositivos</a>
+                <a href="#">Marca</a>
+            </div>
+        </div>
+        
+        <div class="menu-item position-relative">
+            <a class="menu-pill d-flex align-items-center gap-2" href="#">
+                <i class="bi bi-file-text"></i>
+                Clientes
+            </a>
+        </div>
+
+        <div class="menu-item position-relative">
+            <a class="menu-pill d-flex align-items-center gap-2" href="#">
+                <i class="bi bi-person-badge"></i>
+                Técnicos
+            </a>
+            <div class="submenu">
+                <a href="#">Técnicos</a>
+                <a href="#">Especializaciones</a>
+            </div>
+        </div>
+    </div>
+</header>
+
+<main>
+    <section class="container vh-100 d-flex align-items-center justify-content-center">
+        <h1 style="font-size: 4rem; font-weight: 100;">Bienvenido, <span style="font-family: 'Playwrite IE'; font-weight: bolder;">{{ request.user.username }}</span></h1>
+    </section>
+</main>
+
+<!-- Ocultar y mostrar header -->
+<script>
+let lastScroll = 0;
+const header = document.querySelector(".floating-header");
+
+window.addEventListener("scroll", () => {
+
+    const currentScroll = window.pageYOffset;
+
+    if (currentScroll > lastScroll && currentScroll > 80) {
+        // scroll DOWN
+        header.classList.add("hide");
+    } else {
+        // scroll UP
+        header.classList.remove("hide");
+    }
+
+    lastScroll = currentScroll;
+
+});
+</script>
+
+<!-- <script>
+const headerx = document.querySelector(".floating-header");
+document.body.style.paddingTop = header.offsetHeight + 40 + "px";
+</script> -->
+{% endblock %}
+
+{% block extra_js %}{% endblock %}

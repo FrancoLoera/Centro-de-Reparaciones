@@ -30,4 +30,4 @@ def dashboard_admin(request):
     if hasattr(request.user, "perfil_tecnico"):
         return redirect("login_redirect")
 
-    return HttpResponse("Panel Administrativo")
+    return render(request, "dashboards/admin/dashboard.html")
