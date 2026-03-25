@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}Confirmar borrado{% endblock %}
+{% block content %}
+  <div class="row justify-content-center">
+    <div class="col-lg-6">
+      <div class="card card-cr border-danger">
+        <div class="card-header bg-light text-danger">¿Borrar dispositivo?</div>
+        <div class="card-body">
+          <p>
+            ¿Seguro que quieres borrar el dispositivo
+            <strong>{{ dispositivo.alias }}</strong> (idMarca: {{ dispositivo.marca.id_marca }} - {{ dispositivo.marca.nombre }})?
+          </p>
+          <form method="post" class="d-flex flex-wrap gap-2">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger">Sí, borrar</button>
+            <a href="{% url 'dispositivos_lista' %}" class="btn btn-outline-secondary">Cancelar</a>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

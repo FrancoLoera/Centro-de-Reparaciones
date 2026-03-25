@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}Inicio · Centro de reparaciones{% endblock %}
+{% block content %}
+  <div class="row justify-content-center">
+    <div class="col-lg-8">
+      <div class="card card-cr">
+        <div class="card-header">Bienvenida</div>
+        <div class="card-body">
+          <h1 class="h3 text-secondary mb-3">Centro de reparaciones</h1>
+          <p class="lead text-muted">
+            El área operativa es solo para personal autorizado. Los visitantes no
+            acceden a datos de clientes ni de órdenes.
+          </p>
+          <a href="{% url 'login_tecnico' %}" class="btn btn-cr-primary btn-lg mt-2">
+            Acceso personal técnico
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
