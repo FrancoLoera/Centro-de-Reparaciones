@@ -6,316 +6,37 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{% block title %}Centro de reparaciones{% endblock %}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&family=Playwrite+IE:wght@100..400&family=Rubik:ital,wght@0,300..900;1,300..900&display=swap" rel="stylesheet">
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.1/font/bootstrap-icons.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
-    <style>
-        :root {
-            --cr-gray: #555;
-            --cr-gray-light: #888;
-            --cr-gray-100: #f3f4f6;
-            --cr-gray-600: #4b5563;
-            --cr-gray-800: #1f2937;
-            --cr-gray-900: #111827;
-        }
-        
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            background: linear-gradient(135deg, #F8F8F8 40%, #DDD);
-            color: var(--cr-gray-900);
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-        }
-        
-        .floating-header {
-            position: fixed;
-            top: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 1000;
-            transition: transform .35s ease, opacity .35s ease;
-        }
-        
-        .floating-header.hide {
-            transform: translate(-50%, -120%);
-            opacity: 0;
-        }
-        
-        .header-pill {
-            background: black;
-            padding: 16px 20px;
-            border-radius: 999px;
-            display: flex;
-            gap: 3px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-        }
-        
-        .menu-pill {
-            background: #2f2f2f;
-            color: #e9e9e9;
-            text-decoration: none;
-            padding: 10px 22px;
-            border-radius: 999px;
-            font-weight: 500;
-            transition: .25s;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            white-space: nowrap;
-        }
-        
-        .menu-pill i {
-            font-size: 18px;
-        }
-        
-        .menu-pill:hover {
-            background: #fff;
-            color: #2f2f2f;
-        }
-        
-        .menu-item {
-            position: relative;
-        }
-        
-        .submenu {
-            position: absolute;
-            top: 100%;
-            left: 50%;
-            transform: translateX(-50%) translateY(10px);
-            background: #1f1f1f;
-            padding: 10px;
-            border-radius: 16px;
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
-            min-width: 140px;
-            opacity: 0;
-            pointer-events: none;
-            transition: .25s;
-        }
-        
-        .submenu a {
-            color: #e9e9e9;
-            text-decoration: none;
-            padding: 8px 12px;
-            border-radius: 10px;
-            transition: .2s;
-            font-size: 0.9rem;
-        }
-        
-        .submenu a:hover {
-            background: #2f2f2f;
-        }
-        
-        .menu-item:hover .submenu {
-            opacity: 1;
-            pointer-events: auto;
-            transform: translateX(-50%) translateY(0);
-        }
-        
-        .floating-logout {
-            background-color: #e5e5e5;
-            padding: 10px 15px;
-            border-radius: 100px;
-            transition: 0.2s;
-            color: black;
-            text-decoration: none;
-            font-weight: 400;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            border: none;
-        }
-        
-        .floating-logout:hover {
-            background-color: #1f1f1f;
-            color: white;
-        }
-        
-        .floating-logout div {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        
-        .tabla-dashboard {
-            border-collapse: separate;
-            border-spacing: 0 10px;
-        }
-        
-        .tabla-dashboard thead {
-            border-radius: 12px;
-        }
-        
-        .tabla-dashboard thead th {
-            border: none;
-            background: #f4f4f4;
-            color: #5f5f5f;
-            font-weight: 500;
-            font-size: 0.9rem;
-            padding-left: 14px;
-            padding-bottom: 12px;
-            border-radius: 12px;
-        }
-        
-        .tabla-dashboard tbody tr {
-            background: #ffffff;
-            box-shadow: 0 2px 6px rgba(0,0,0,.04);
-            border-radius: 12px;
-            transition: .15s ease;
-        }
-        
-        .tabla-dashboard tbody tr:hover {
-            background: #f8f9fa;
-        }
-        
-        .tabla-dashboard tbody td {
-            border: none;
-            font-size: 0.85rem;
-            padding: 10px 12px;
-        }
-        
-        .tabla-dashboard tbody tr td:first-child {
-            border-top-left-radius: 12px;
-            border-bottom-left-radius: 12px;
-        }
-        
-        .tabla-dashboard tbody tr td:last-child {
-            border-top-right-radius: 12px;
-            border-bottom-right-radius: 12px;
-        }
-        
-        .carta-elementos {
-            background-color: #1f1f1f;
-            color: white;
-            padding: 2rem;
-            border-radius: 20px;
-        }
-        
-        .carta-elementos a {
-            text-decoration: none;
-            color: white;
-            background-color: #2f2f2f;
-            border-radius: 10px;
-            padding: 6px 13px;
-            font-size: 0.9rem;
-            transition: 0.2s;
-        }
-        
-        .carta-elementos a:hover {
-            color: #2f2f2f;
-            background-color: white;
-        }
-        
-        .icono-tabla {
-            width: 36px;
-            height: 36px;
-            background-color: #f0f0f0;
-            border-radius: 0.375rem;
-            cursor: pointer;
-            color: #1f1f1f;
-            transition: 0.2s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border: none;
-        }
-        
-        .icono-tabla:hover {
-            background-color: #1f1f1f;
-            color: white;
-        }
-        
-        .card-cr {
-            border: none;
-            box-shadow: 0 0.25rem 1rem rgba(17, 24, 39, 0.08);
-            border-top: 4px solid var(--cr-red);
-        }
-        
-        .card-cr .card-header {
-            background: linear-gradient(90deg, #e5e7eb 0%, #f9fafb 100%);
-            border-bottom: 1px solid #d1d5db;
-            color: var(--cr-gray-800);
-            font-weight: 600;
-        }
-        
-        .btn-cr-primary {
-            background-color: #1f1f1f;
-            border-color: #1f1f1f;
-            color: #fff;
-        }
-        
-        .btn-cr-primary:hover {
-            background-color: #444;
-            border-color: #444;
-            color: #fff;
-        }
-        
-        .btn-outline-cr {
-            border-color: #555;
-            color: #555;
-        }
-        
-        .btn-outline-cr:hover {
-            background-color: #555;
-            color: #fff;
-        }
-        
-        .auth-container {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            min-height: 100vh;
-            background: linear-gradient(135deg, #F8F8F8 40%, #DDD);
-        }
-        
-        .list-section {
-            margin-top: 2rem;
-        }
-        
-        main {
-            position: relative;
-            overflow: hidden;
-        }
-        
-        main::before {
-            content: "";
-            position: absolute;
-            width: min(900px, 80vw);
-            height: min(900px, 80vw);
-            background-image: url("/static/img/Grid Background.png");
-            background-size: contain;
-            background-repeat: no-repeat;
-            background-position: center;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            opacity: 0.6;
-            pointer-events: none;
-        }
-        
-        .login-card {
-            position: relative;
-            z-index: 2;
-        }
-    </style>
     <link rel="stylesheet" href="{% static 'css/buttons.css' %}">
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
     {% block extra_css %}{% endblock %}
 </head>
 <body>
     {% if user|es_tecnico %}
     <header class="floating-header d-flex align-items-center justify-content-center gap-3">
+        <a href="{% url 'dashboard_tecnico' %}" class="floating-logout d-flex align-items-center justify-content-center">
+            <div>
+                Inicio <i class="bi bi-house-fill"></i>
+            </div>
+        </a>
         <div class="header-pill d-flex gap-3">
+
             <div class="menu-item position-relative">
-                <a class="menu-pill d-flex align-items-center gap-2" href="{% url 'ordenes_lista' %}">
+                <a class="menu-pill d-flex align-items-center gap-2" href="#">
                     <i class="bi bi-file-text"></i>
                     Órdenes
                 </a>
+                <div class="submenu">
+                    <a href="{% url 'ordenes_lista' %}">Consultar</a>
+                    <a href="{% url 'ordenes_crear' %}">Agregar</a>
+                    <a href="{% url 'seguimiento:estatus_list' %}">Tipos de estatus</a>
+                </div>
             </div>
 
             <div class="menu-item position-relative">
@@ -324,17 +45,21 @@
                     Dispositivos
                 </a>
                 <div class="submenu">
-                    <a href="{% url 'dispositivos_lista' %}">Dispositivos</a>
-                    <a href="{% url 'dispositivos_crear' %}">Agregar dispositivo</a>
+                    <a href="{% url 'dispositivos_lista' %}">Consultar</a>
+                    <a href="{% url 'dispositivos_crear' %}">Agregar</a>
                     <a href="{% url 'marcas_lista' %}">Marcas</a>
                 </div>
             </div>
-            
+
             <div class="menu-item position-relative">
-                <a class="menu-pill d-flex align-items-center gap-2" href="{% url 'clientes_lista' %}">
+                <a class="menu-pill d-flex align-items-center gap-2" href="#">
                     <i class="bi bi-person-fill"></i>
                     Clientes
                 </a>
+                <div class="submenu">
+                    <a href="{% url 'clientes_lista' %}">Consultar</a>
+                    <a href="{% url 'clientes_crear' %}">Agregar</a>
+                </div>
             </div>
 
         </div>

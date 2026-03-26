@@ -27,8 +27,8 @@
                 <tbody>
                 {% for orden in ordenes_recientes %}
                 <tr>
-                    <td>#{{ orden.id_orden }}</td>
-                    <td><code>{{ orden.codigo_seguimiento }}</code></td>
+                    <td style="font-weight: bolder;">#{{ orden.id_orden }}</td>
+                    <td><code class="rounded" style="color: #1f1f1f; background-color: #f6f6f6; padding: 6px 10px;">{{ orden.codigo_seguimiento }}</code></td>
                     <td>{{ orden.cliente.nombre_completo|default:orden.cliente }}</td>
                     <td>{% if orden.dispositivo %}{{ orden.dispositivo.alias|default:orden.dispositivo }}{% else %}<span class="text-muted">—</span>{% endif %}</td>
                     <td>
@@ -74,22 +74,10 @@
         </div>
     </section>
 
-    <section class="container d-flex flex-column align-items-center justify-content-center pb-5">
+    <section class="container d-flex flex-column align-items-center justify-content-center pb-5 w-100">
         <h2 class="mb-0">Gestionar registros</h2>
-        <div class="row mt-4 row-gap-4">
-            <div class="col-6 d-flex">
-                <div class="carta-elementos d-flex flex-column gap-2 flex-fill">
-                    <div class="d-flex gap-2 align-items-end mb-2"><i class="bi bi-file-text fs-2"></i><p class="mb-0 pb-1 fs-4 fw-bold">Órdenes</p></div>
-                    <a class="align-self-start" href="{% url 'ordenes_lista' %}">Consultar panel<i class="bi bi-caret-right-fill ms-1"></i></a>
-                </div>
-            </div>
-            <div class="col-6 d-flex">
-                <div class="carta-elementos d-flex flex-column gap-2 flex-fill">
-                    <div class="d-flex gap-2 align-items-end mb-2"><i class="bi bi-person-fill fs-2"></i><p class="mb-0 pb-1 fs-4 fw-bold">Clientes</p></div>
-                    <a class="align-self-start" href="{% url 'clientes_lista' %}">Consultar panel<i class="bi bi-caret-right-fill ms-1"></i></a>
-                </div>
-            </div>
-            <div class="col-6 d-flex">
+        <div class="row mt-4 row-gap-4 w-100">
+            <div class="col-4 d-flex">
                 <div class="carta-elementos d-flex flex-column gap-2 flex-fill">
                     <div class="d-flex gap-2 align-items-end mb-2"><i class="bi bi-pc-display fs-2"></i><p class="mb-0 pb-1 fs-4 fw-bold">Dispositivos</p></div>
                     <a class="d-flex justify-content-between" href="{% url 'dispositivos_lista' %}"><span>Dispositivos</span><i class="bi bi-caret-right-fill"></i></a>
@@ -97,13 +85,50 @@
                     <a class="d-flex justify-content-between" href="{% url 'marcas_lista' %}"><span>Marcas</span><i class="bi bi-caret-right-fill"></i></a>
                 </div>
             </div>
-            <div class="col-6 d-flex">
+            <div class="col-4 d-flex">
+                <div class="carta-elementos d-flex flex-column gap-2 flex-fill">
+                    <div class="d-flex gap-2 align-items-end mb-2"><i class="bi bi-file-text fs-2"></i><p class="mb-0 pb-1 fs-4 fw-bold">Órdenes</p></div>
+                    <p>Administra y da seguimiento a las órdenes registradas.</p>
+                    <a class="align-self-start" href="{% url 'ordenes_lista' %}">Consultar panel<i class="bi bi-caret-right-fill ms-1"></i></a>
+                </div>
+            </div>
+            <div class="col-4 d-flex">
+                <div class="carta-elementos d-flex flex-column gap-2 flex-fill">
+                    <div class="d-flex gap-2 align-items-end mb-2"><i class="bi bi-person-fill fs-2"></i><p class="mb-0 pb-1 fs-4 fw-bold">Clientes</p></div>
+                    <p>Consulta y gestiona la información de tus clientes.</p>
+                    <a class="align-self-start" href="{% url 'clientes_lista' %}">Consultar panel<i class="bi bi-caret-right-fill ms-1"></i></a>
+                </div>
+            </div>
+
+            <!-- <div class="col-6 d-flex">
                 <div class="carta-elementos d-flex flex-column gap-2 flex-fill">
                     <div class="d-flex gap-2 align-items-end mb-2"><i class="bi bi-person-badge fs-2"></i><p class="mb-0 pb-1 fs-4 fw-bold">Técnicos</p></div>
                     <a class="d-flex justify-content-between" href="{% url 'admin:usuarios_usuario_changelist' %}"><span>Técnicos</span><i class="bi bi-caret-right-fill"></i></a>
                     <a class="d-flex justify-content-between" href="{% url 'admin:usuarios_tecnico_changelist' %}"><span>Especializaciones</span><i class="bi bi-caret-right-fill"></i></a>
                 </div>
+            </div> -->
+        </div>
+    </section>
+
+    <section class="container d-flex align-items-center justify-content-center pb-5">
+        <div class="d-flex flex-column p-4 rounded-4 bg-dark text-white">
+            <div class="d-flex align-items-center">
+
+                <div>
+                    <h2 class="fw-semibold mb-2">¿Eres administrador?</h2>
+                    <p class="text-secondary mb-3">Accede al panel desde aquí</p>
+
+                    <a href="#" class="btn btn-secondary px-4">
+                        Ingresar
+                    </a>
+                </div>
+
+                <div class="ms-auto">
+                    <i class="fa-solid fa-headset opacity-25" style="font-size:120px;"></i>
+                </div>
+
             </div>
+
         </div>
     </section>
 </main>

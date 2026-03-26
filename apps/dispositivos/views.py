@@ -7,7 +7,6 @@ from apps.usuarios.utils import solo_tecnicos
 from .models import Dispositivo, Marca
 from apps.clientes.models import Cliente
 
-
 class DispositivoForm(BootstrapModelForm):
     class Meta:
         model = Dispositivo

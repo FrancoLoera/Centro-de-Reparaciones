@@ -3,13 +3,13 @@
 {% block title %}Clientes{% endblock %}
 {% block extra_css %}<link rel="stylesheet" href="{% static 'css/dashboards/admin/dashboard.css' %}">{% endblock %}
 {% block content %}
-<main>
+<main class="vh-100">
   <section class="container mt-5">
     <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-5">
-      <h1 style="font-size: 3rem; font-weight: 300;">Clientes</h1>
-      <div class="d-flex gap-2">
-        <a href="{% url 'dashboard_tecnico' %}" class="btn btn-outline-secondary btn-sm">← Panel</a>
-        <a href="{% url 'clientes_crear' %}" class="btn btn-cr-primary btn-sm">+ Agregar cliente</a>
+      <h1 style="font-size: 3rem; font-weight: 300;"><i class="bi bi-person-fill me-4"></i>Clientes</h1>
+      <div class="d-flex gap-4 align-items-center">
+        <a class="boton-panel" href="{% url 'dashboard_tecnico' %}"><i class="bi bi-chevron-left me-1"></i>Panel</a>
+        <a href="{% url 'clientes_crear' %}" class="btn btn-cr-primary btn-sm">Agregar cliente<i class="fa-solid fa-plus ms-2"></i></a>
       </div>
     </div>
 

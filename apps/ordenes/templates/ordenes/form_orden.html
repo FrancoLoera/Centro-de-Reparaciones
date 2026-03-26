@@ -3,6 +3,7 @@
 {% block title %}{% if orden %}Editar{% else %}Nueva{% endif %} orden{% endblock %}
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'css/forms.css' %}">
+<link rel="stylesheet" href="{% static 'css/dashboards/admin/dashboard.css' %}">
 <style>
   .form-card {
     background: white;
@@ -11,9 +12,8 @@
     border: 1px solid #e5e7eb;
   }
   .form-card-header {
-    font-size: 1.75rem;
     font-weight: 700;
-    color: #111827;
+    color: #1f1f1f;
   }
   .form-label {
     font-weight: 600;
@@ -35,7 +35,7 @@
 </style>
 {% endblock %}
 {% block content %}
-<main>
+<main class="vh-100">
   <section class="container mt-5 mb-5">
     <div class="row justify-content-center">
       <div class="col-lg-7">
@@ -52,7 +52,7 @@
             {% endif %}
             
             <div class="mb-3">
-              <label class="form-label" for="id_cliente">{{ form.cliente.label }}</label>
+              <label class="form-label" for="id_cliente">Cliente</label>
               {{ form.cliente }}
               {% if form.cliente.errors %}
                 <div class="text-danger small mt-2">
@@ -64,7 +64,7 @@
             </div>
 
             <div class="mb-3">
-              <label class="form-label" for="id_dispositivo">{{ form.dispositivo.label }}</label>
+              <label class="form-label" for="id_dispositivo">Dispositivo</label>
               <select name="dispositivo" id="id_dispositivo" class="form-select"> 
                 <option value="">---------</option>
                 {% for d in dispositivos %}
@@ -81,8 +81,11 @@
             </div>
 
             <div class="mb-3">
-              <label class="form-label" for="id_estatus">{{ form.estatus.label }}</label>
-              {{ form.estatus }}
+              <label class="form-label" for="id_estatus">Estatus</label>
+              <div class="d-flex gap-3">
+                {{ form.estatus }}
+                <a href="{% url 'seguimiento:estatus_list' %}" class="btn btn-cr-primary"><i class="fa-solid fa-circle-half-stroke me-2"></i>Tipos de estatus</a>
+              </div>
               {% if form.estatus.errors %}
                 <div class="text-danger small mt-2">
                   {% for error in form.estatus.errors %}
@@ -92,11 +95,10 @@
               {% endif %}
             </div>
             
-            <div class="btn-group-form">
-              <button type="submit" class="btn btn-cr-primary">Guardar</button>
-              <a href="{% url 'ordenes_lista' %}" class="btn btn-outline-secondary">Ver órdenes</a>
-              <a href="{% url 'dashboard_tecnico' %}" class="btn btn-outline-secondary">Panel</a>
-              <a href="{% url 'seguimiento:estatus_list' %}" class="btn btn-outline-secondary">Administrar estatus</a>
+            <div class="btn-group-form d-flex align-items-center">
+              <button type="submit" class="btn btn-cr-primary"><i class="fa-solid fa-floppy-disk me-2"></i>Guardar</button>
+              <a class="boton-panel" href="{% url 'dashboard_tecnico' %}"><i class="bi bi-chevron-left me-1"></i>Panel</a>
+              
             </div>
           </form>
         </div>

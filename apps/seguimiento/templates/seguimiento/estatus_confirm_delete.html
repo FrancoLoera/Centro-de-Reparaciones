@@ -1,9 +1,12 @@
 {% extends "base.html" %}
 {% load static %}
 {% block title %}Confirmar borrado{% endblock %}
-{% block extra_css %}<link rel="stylesheet" href="{% static 'css/forms.css' %}">{% endblock %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/forms.css' %}">
+<link rel="stylesheet" href="{% static 'css/dashboards/admin/dashboard.css' %}">
+{% endblock %}
 {% block content %}
-<main>
+<main class="vh-100">
   <section class="container mt-5 mb-5">
     <div class="row justify-content-center">
       <div class="col-lg-6">
@@ -17,9 +20,9 @@
           </p>
           <form method="post">
             {% csrf_token %}
-            <div class="btn-group-form">
-              <button type="submit" class="btn" style="background-color: #555; color: white; border: none;">Sí, eliminar</button>
-              <a href="{% url 'seguimiento:estatus_list' %}" class="btn btn-outline-secondary">Cancelar</a>
+            <div class="btn-group-form d-flex align-items-center">
+              <button type="submit" class="btn" style="background-color: #1f1f1f; color: white; border: none;"><i class="fa-solid fa-trash me-2"></i>Sí, eliminar</button>
+              <a class="boton-panel" href="{% url 'seguimiento:estatus_list' %}"><i class="bi bi-chevron-left me-1"></i>Cancelar</a>
             </div>
           </form>
         </div>

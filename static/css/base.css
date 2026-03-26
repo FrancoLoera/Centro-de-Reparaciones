@@ -1,0 +1,20 @@
+:root {
+    --cr-gray: #555;
+    --cr-gray-light: #888;
+    --cr-gray-100: #f3f4f6;
+    --cr-gray-600: #4b5563;
+    --cr-gray-800: #1f2937;
+    --cr-gray-900: #111827;
+}
+
+* {
+    font-family: "Rubik";
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: linear-gradient(135deg, #F8F8F8 40%, #DDD);
+    color: var(--cr-gray-900);
+}

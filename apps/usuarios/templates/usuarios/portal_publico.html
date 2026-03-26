@@ -1,7 +1,8 @@
 {% extends "base.html" %}
 {% load static %}
 {% block title %}Inicio · Centro de reparaciones{% endblock %}
-{% block extra_css %}
+{% block extra_css %} <link rel="stylesheet" href="{% static 'usuarios/css/login.css' %}"> {% endblock %}
+{% block content %}
 <style>
     body {
         background: linear-gradient(135deg, #F8F8F8 40%, #DDD);
@@ -29,15 +30,17 @@
         z-index: 10;
     }
 </style>
-{% endblock %}
-{% block content %}
-<div class="welcome-card">
-    <h1 style="font-size: 2.5rem; font-weight: 300; margin-bottom: 1rem; color: #1f1f1f;">Centro de reparaciones</h1>
-    <p style="font-size: 1.1rem; color: #666; margin-bottom: 2rem; line-height: 1.6;">
-        Bienvenido. El área operativa es solo para personal autorizado.
-    </p>
-    <a href="{% url 'login_tecnico' %}" class="btn btn-cr-primary btn-lg" style="width: 100%; display: inline-block; padding: 12px; font-weight: 600; border-radius: 8px; text-align: center;">
-        Acceso personal técnico
-    </a>
-</div>
+<main class="vh-100 d-flex align-items-center justify-content-center">
+    <div class="welcome-card d-flex flex-column align-items-center justify-content-center">
+        <i class="bi bi-wrench-adjustable bg-dark text-white rounded-circle fs-3 mb-3" style="padding: 11px 17px;"></i>
+        <h1 style="font-size: 2rem; font-weight: 500; margin-bottom: 1rem; color: #1f1f1f;" class="mb-0">Centro de reparaciones</h1>
+        <hr class="w-75 border-2 text-secondary opacity-25">
+        <p class="pt-2" style="font-size: 1rem; color: #4f4f4f; margin-bottom: 2rem; line-height: 1.6; text-align: center;">
+            <span style="font-family: 'Playwrite IE'; font-weight: 800; font-size: 1.3rem;">Bienvenido</span><br>El área operativa es solo para personal autorizado.
+        </p>
+        <a href="{% url 'login_tecnico' %}" class="btn btn-cr-primary btn-lg" style="width: 100%; display: inline-block; padding: 12px; font-weight: 600; border-radius: 8px; text-align: center;">
+            Acceder<i class="bi bi-caret-right-fill ms-2"></i>
+        </a>
+    </div>
+</main>
 {% endblock %}

@@ -1,9 +1,12 @@
 {% extends "base.html" %}
 {% load static %}
 {% block title %}{{ title }}{% endblock %}
-{% block extra_css %}<link rel="stylesheet" href="{% static 'css/forms.css' %}">{% endblock %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/forms.css' %}">
+<link rel="stylesheet" href="{% static 'css/dashboards/admin/dashboard.css' %}">
+{% endblock %}
 {% block content %}
-<main>
+<main class="vh-100">
   <section class="container mt-5 mb-5">
     <div class="row justify-content-center">
       <div class="col-lg-6">
@@ -33,9 +36,9 @@
               </div>
             {% endfor %}
             
-            <div class="btn-group-form">
-              <button type="submit" class="btn btn-cr-primary">Guardar</button>
-              <a href="{% url 'seguimiento:estatus_list' %}" class="btn btn-outline-secondary">Cancelar</a>
+            <div class="btn-group-form d-flex align-items-center">
+              <button type="submit" class="btn btn-cr-primary"><i class="fa-solid fa-floppy-disk me-2"></i>Guardar</button>
+              <a class="boton-panel" href="{% url 'dashboard_tecnico' %}"><i class="bi bi-chevron-left me-1"></i>Panel</a>
             </div>
           </form>
         </div>
