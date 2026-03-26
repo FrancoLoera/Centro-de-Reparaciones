@@ -12,10 +12,10 @@ class ClienteForm(BootstrapModelForm):
         model = Cliente
         fields = ["nombre_completo", "telefono", "telefono_alternativo", "email"]
         labels = {
-            "nombre_completo": "nombreCompleto",
-            "telefono": "telefono",
-            "telefono_alternativo": "telefonoAlternativo",
-            "email": "email",
+            "nombre_completo": "Nombre Completo",
+            "telefono": "Telefóno",
+            "telefono_alternativo": "Telefóno Alternativo",
+            "email": "Correo",
         }
 
 

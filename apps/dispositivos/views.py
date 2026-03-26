@@ -12,11 +12,11 @@ class DispositivoForm(BootstrapModelForm):
         model = Dispositivo
         fields = ["cliente", "alias", "numero_serie", "color", "marca"]
         labels = {
-            "cliente": "idCliente",
-            "alias": "alias",
-            "numero_serie": "numeroSerie",
-            "color": "color",
-            "marca": "idMarca",
+            "cliente": "Cliente",
+            "alias": "Alias del Dispositivo",
+            "numero_serie": "Número de Serie",
+            "color": "Color",
+            "marca": "Marca",
         }
 
     def clean(self):
@@ -31,7 +31,7 @@ class MarcaForm(BootstrapModelForm):
     class Meta:
         model = Marca
         fields = ["nombre"]
-        labels = {"nombre": "nombre"}
+        labels = {"nombre": "Nombre"}
 
 
 @solo_tecnicos
