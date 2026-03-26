@@ -1,22 +1,30 @@
 {% extends "base.html" %}
+{% load static %}
 {% block title %}Confirmar borrado{% endblock %}
+{% block extra_css %}<link rel="stylesheet" href="{% static 'css/forms.css' %}">{% endblock %}
 {% block content %}
-  <div class="row justify-content-center">
-    <div class="col-lg-6">
-      <div class="card card-cr border-danger">
-        <div class="card-header bg-light text-danger">¿Borrar dispositivo?</div>
-        <div class="card-body">
-          <p>
-            ¿Seguro que quieres borrar el dispositivo
-            <strong>{{ dispositivo.alias }}</strong> (idMarca: {{ dispositivo.marca.id_marca }} - {{ dispositivo.marca.nombre }})?
+<main>
+  <section class="container mt-5 mb-5">
+    <div class="row justify-content-center">
+      <div class="col-lg-6">
+        <div class="form-card" style="border: 2px solid #f0f0f0;">
+          <h1 class="form-card-header" style="color: #555;">Eliminar dispositivo</h1>
+          <p style="font-size: 1.1rem; margin-bottom: 1.5rem; color: #333;">
+            ¿Estás seguro de que deseas eliminar el dispositivo <strong>{{ dispositivo.alias }}</strong>?
           </p>
-          <form method="post" class="d-flex flex-wrap gap-2">
+          <p style="font-size: 0.9rem; color: #999; margin-bottom: 2rem;">
+            Marca: <strong>{{ dispositivo.marca.nombre }}</strong>
+          </p>
+          <form method="post">
             {% csrf_token %}
-            <button type="submit" class="btn btn-danger">Sí, borrar</button>
-            <a href="{% url 'dispositivos_lista' %}" class="btn btn-outline-secondary">Cancelar</a>
+            <div class="btn-group-form">
+              <button type="submit" class="btn" style="background-color: #555; color: white; border: none;">Sí, eliminar</button>
+              <a href="{% url 'dispositivos_lista' %}" class="btn btn-outline-secondary">Cancelar</a>
+            </div>
           </form>
         </div>
       </div>
     </div>
-  </div>
+  </section>
+</main>
 {% endblock %}

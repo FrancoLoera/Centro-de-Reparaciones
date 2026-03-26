@@ -1,37 +1,167 @@
 {% extends "base.html" %}
+{% load static %}
 {% block title %}Acceso técnicos{% endblock %}
+{% block extra_css %}
+<style>
+    body {
+        background: linear-gradient(135deg, #F8F8F8 40%, #DDD);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+    }
+    
+    main {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .login-container {
+        background: white;
+        padding: 3rem;
+        border-radius: 20px;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        width: 100%;
+        max-width: 400px;
+        position: relative;
+        z-index: 2;
+    }
+    
+    .login-container h2 {
+        font-size: 1.8rem;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+        color: #1f1f1f;
+    }
+    
+    .login-container .form-subtitle {
+        font-size: 0.95rem;
+        color: #666;
+        margin-bottom: 2rem;
+        line-height: 1.5;
+    }
+    
+    .form-group {
+        margin-bottom: 1.5rem;
+    }
+    
+    .form-group label {
+        display: block;
+        margin-bottom: 0.5rem;
+        font-weight: 500;
+        color: #333;
+        font-size: 0.95rem;
+    }
+    
+    .form-group input {
+        width: 100%;
+        padding: 12px 14px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        font-size: 0.95rem;
+        transition: border-color 0.2s;
+    }
+    
+    .form-group input:focus {
+        outline: none;
+        border-color: #1f1f1f;
+        box-shadow: 0 0 0 3px rgba(31, 31, 31, 0.1);
+    }
+    
+    .btn-login {
+        width: 100%;
+        padding: 12px;
+        background-color: #1f1f1f;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        font-weight: 600;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: background-color 0.2s;
+        margin-top: 1rem;
+    }
+    
+    .btn-login:hover {
+        background-color: #44474b;
+    }
+    
+    .error-message {
+            background-color: #f5f5f5;
+            color: #555;
+        border-radius: 8px;
+        margin-bottom: 1.5rem;
+        font-size: 0.9rem;
+    }
+    
+    .login-footer {
+        text-align: center;
+        margin-top: 1.5rem;
+        padding-top: 1.5rem;
+        border-top: 1px solid #eee;
+    }
+    
+    .login-footer a {
+        color: #1f1f1f;
+        text-decoration: none;
+        font-weight: 500;
+        transition: color 0.2s;
+    }
+    
+    .login-footer a:hover {
+        color: #b91c1c;
+    }
+</style>
+{% endblock %}
+
 {% block content %}
-  <div class="row justify-content-center">
-    <div class="col-md-5 col-lg-4">
-      <div class="card card-cr">
-        <div class="card-header text-center">Acceso para técnicos</div>
-        <div class="card-body">
-          <p class="text-muted small mb-3">
-            Ingresa con el <strong>correo</strong> y la contraseña de tu cuenta.
-          </p>
-          <form method="post" action="{% url 'login_tecnico' %}">
-            {% csrf_token %}
-            {% if form.non_field_errors %}
-              <div class="alert alert-danger small">{{ form.non_field_errors }}</div>
-            {% endif %}
-            <div class="mb-3">
-              <label class="form-label" for="{{ form.username.id_for_label }}">{{ form.username.label }}</label>
-              {{ form.username }}
-              {{ form.username.errors }}
-            </div>
-            <div class="mb-3">
-              <label class="form-label" for="{{ form.password.id_for_label }}">{{ form.password.label }}</label>
-              {{ form.password }}
-              {{ form.password.errors }}
-            </div>
-            <input type="hidden" name="next" value="{{ next }}" />
-            <button type="submit" class="btn btn-cr-primary w-100">Entrar</button>
-          </form>
-          <p class="mt-3 mb-0 text-center small">
-            <a href="{% url 'portal_publico' %}" class="text-secondary">Volver al inicio</a>
-          </p>
+<div class="login-container">
+    <h2>Acceso para técnicos</h2>
+    <p class="form-subtitle">Ingresa con tu <strong>correo</strong> y contraseña para acceder al panel.</p>
+    
+    {% if form.non_field_errors %}
+        <div class="error-message">
+            {% for error in form.non_field_errors %}
+                <div>{{ error }}</div>
+            {% endfor %}
         </div>
-      </div>
+    {% endif %}
+    
+    <form method="post" action="{% url 'login_tecnico' %}">
+        {% csrf_token %}
+        
+        <div class="form-group">
+            <label for="{{ form.username.id_for_label }}">{{ form.username.label }}</label>
+            {{ form.username }}
+            {% if form.username.errors %}
+                <div class="error-message" style="margin-top: 0.5rem; margin-bottom: 0;">
+                    {% for error in form.username.errors %}
+                        <div>{{ error }}</div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+        
+        <div class="form-group">
+            <label for="{{ form.password.id_for_label }}">{{ form.password.label }}</label>
+            {{ form.password }}
+            {% if form.password.errors %}
+                <div class="error-message" style="margin-top: 0.5rem; margin-bottom: 0;">
+                    {% for error in form.password.errors %}
+                        <div>{{ error }}</div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+        
+        <input type="hidden" name="next" value="{{ next }}" />
+        <button type="submit" class="btn-login">Entrar</button>
+    </form>
+    
+    <div class="login-footer">
+        <a href="{% url 'portal_publico' %}">← Volver al inicio</a>
     </div>
-  </div>
+</div>
 {% endblock %}

@@ -1,37 +1,56 @@
 {% extends "base.html" %}
+{% load static %}
 {% block title %}Estatuses{% endblock %}
+{% block extra_css %}<link rel="stylesheet" href="{% static 'css/dashboards/admin/dashboard.css' %}">{% endblock %}
 {% block content %}
-  <div class="row justify-content-center">
-    <div class="col-lg-8">
-      <div class="card card-cr">
-        <div class="card-header d-flex justify-content-between align-items-center">
-          <span>Estatuses</span>
-          <a href="{% url 'seguimiento:estatus_create' %}" class="btn btn-sm btn-cr-primary">Nuevo estatus</a>
-        </div>
-        <div class="card-body">
-          <table class="table">
-            <thead>
-              <tr>
-                <th>Nombre</th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody>
-              {% for e in estatuses %}
-                <tr>
-                  <td>{{ e.nombre }}</td>
-                  <td class="text-end">
-                    <a href="{% url 'seguimiento:estatus_edit' e.pk %}" class="btn btn-sm btn-outline-secondary">Editar</a>
-                    <a href="{% url 'seguimiento:estatus_delete' e.pk %}" class="btn btn-sm btn-outline-danger">Borrar</a>
-                  </td>
-                </tr>
-              {% empty %}
-                <tr><td colspan="2">No hay estatus definidos.</td></tr>
-              {% endfor %}
-            </tbody>
-          </table>
-        </div>
+<main>
+  <section class="container mt-5">
+    <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-5">
+      <h1 style="font-size: 3rem; font-weight: 300;">Estatus de órdenes</h1>
+      <div class="d-flex gap-2">
+        <a href="{% url 'dashboard_tecnico' %}" class="btn btn-outline-secondary btn-sm">← Panel</a>
+        <a href="{% url 'seguimiento:estatus_create' %}" class="btn btn-cr-primary btn-sm">+ Nuevo estatus</a>
       </div>
     </div>
-  </div>
+
+    <div class="table-responsive mb-5">
+      {% if estatuses %}
+        <table class="table align-middle tabla-dashboard">
+          <thead class="shadow-sm">
+            <tr>
+              <th>Nombre</th>
+              <th class="text-center">Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for e in estatuses %}
+              <tr>
+                <td>{{ e.nombre }}</td>
+                <td class="text-center">
+                  <div class="d-flex justify-content-center gap-2">
+                    <a href="{% url 'seguimiento:estatus_edit' e.pk %}" class="d-flex align-items-center justify-content-center text-decoration-none icono-tabla">
+                      <i class="fa-solid fa-pen-to-square fs-6"></i>
+                    </a>
+                    <a href="{% url 'seguimiento:estatus_delete' e.pk %}" class="d-flex align-items-center justify-content-center text-decoration-none icono-tabla">
+                      <i class="fa-solid fa-trash fs-6"></i>
+                    </a>
+                  </div>
+                </td>
+              </tr>
+            {% empty %}
+              <tr>
+                <td colspan="2" class="text-center py-4 text-muted">No hay estatus definidos.</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      {% else %}
+        <div class="text-center py-5">
+          <p class="text-muted">No hay estatus registrados.</p>
+          <a href="{% url 'seguimiento:estatus_create' %}" class="btn btn-cr-primary">Crear primer estatus</a>
+        </div>
+      {% endif %}
+    </div>
+  </section>
+</main>
 {% endblock %}

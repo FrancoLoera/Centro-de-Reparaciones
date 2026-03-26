@@ -1,50 +1,82 @@
 {% extends "base.html" %}
+{% load static %}
 {% block title %}Órdenes{% endblock %}
+{% block extra_css %}<link rel="stylesheet" href="{% static 'css/dashboards/admin/dashboard.css' %}">{% endblock %}
 {% block content %}
-  <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-4">
-    <h1 class="h2 text-secondary mb-0">Órdenes</h1>
-    <div class="btn-group flex-wrap">
-      <a href="{% url 'dashboard_tecnico' %}" class="btn btn-outline-secondary btn-sm">Panel</a>
-      <a href="{% url 'ordenes_crear' %}" class="btn btn-cr-primary btn-sm">Crear orden</a>
+<main>
+  <section class="container mt-5">
+    <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-5">
+      <h1 style="font-size: 3rem; font-weight: 300;">Órdenes</h1>
+      <div class="d-flex gap-2">
+        <a href="{% url 'dashboard_tecnico' %}" class="btn btn-outline-secondary btn-sm">← Panel</a>
+        <a href="{% url 'ordenes_crear' %}" class="btn btn-cr-primary btn-sm">+ Crear orden</a>
+      </div>
     </div>
-  </div>
 
-  <div class="card card-cr">
-    <div class="card-header">Listado de órdenes</div>
-    <div class="card-body p-0">
+    <div class="table-responsive mb-5">
       {% if ordenes %}
-        <div class="table-responsive">
-          <table class="table table-hover table-cr mb-0">
-            <thead>
+        <table class="table align-middle tabla-dashboard">
+          <thead class="shadow-sm">
+            <tr>
+              <th>ID Orden</th>
+              <th>Código Seguimiento</th>
+              <th>Cliente</th>
+              <th>Dispositivo</th>
+              <th>Estatus</th>
+              <th class="text-center">Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for o in ordenes %}
               <tr>
-                <th>idOrden</th>
-                <th>codigoSeguimiento</th>
-                <th>idCliente - nombreCompleto</th>
-                <th>idDispositivo - alias</th>
-                <th>idEstatusOrdenDispositivo - nombre</th>
-                <th></th>
+                <td><strong>#{{ o.pk }}</strong></td>
+                <td><code style="background: #f0f0f0; padding: 4px 8px; border-radius: 4px;">{{ o.codigo_seguimiento }}</code></td>
+                <td>{{ o.cliente.nombre_completo }}</td>
+                <td>{% if o.dispositivo %}{{ o.dispositivo.alias }}{% else %}<span class="text-muted">—</span>{% endif %}</td>
+                <td>
+                  <span class="badge
+                  {% if o.estatus %}
+                    {% if 'Recibido' in o.estatus.nombre %}
+                      bg-secondary
+                    {% elif 'diagnóstico' in o.estatus.nombre %}
+                      bg-warning text-dark
+                    {% elif 'Reparando' in o.estatus.nombre %}
+                      bg-info
+                    {% elif 'Listo' in o.estatus.nombre %}
+                      bg-success
+                    {% elif 'Entregado' in o.estatus.nombre %}
+                      bg-dark
+                    {% else %}
+                      bg-light text-dark
+                    {% endif %}
+                  {% else %}
+                    bg-light text-dark
+                  {% endif %}
+                  ">
+                  {{ o.estatus.nombre|default:"Sin estatus" }}
+                  </span>
+                </td>
+                <td class="text-center">
+                  <div class="d-flex justify-content-center gap-2">
+                    <a href="{% url 'ordenes_editar' o.pk %}" class="d-flex align-items-center justify-content-center text-decoration-none icono-tabla">
+                      <i class="fa-solid fa-pen-to-square fs-6"></i>
+                    </a>
+                    <a href="{% url 'ordenes_borrar' o.pk %}" class="d-flex align-items-center justify-content-center text-decoration-none icono-tabla">
+                      <i class="fa-solid fa-trash fs-6"></i>
+                    </a>
+                  </div>
+                </td>
               </tr>
-            </thead>
-            <tbody>
-              {% for o in ordenes %}
-                <tr>
-                  <td>{{ o.id_orden }}</td>
-                  <td><code>{{ o.codigo_seguimiento }}</code></td>
-                  <td>{{ o.cliente.id_cliente }} - {{ o.cliente.nombre_completo }}</td>
-                  <td>{% if o.dispositivo %}{{ o.dispositivo.id_dispositivo }} - {{ o.dispositivo.alias }}{% else %}—{% endif %}</td>
-                  <td>{% if o.estatus %}{{ o.estatus.id_estatus }} - {{ o.estatus.nombre }}{% else %}—{% endif %}</td>
-                  <td class="text-end">
-                    <a href="{% url 'ordenes_editar' o.pk %}" class="btn btn-sm btn-outline-secondary">Editar</a>
-                    <a href="{% url 'ordenes_borrar' o.pk %}" class="btn btn-sm btn-outline-danger">Borrar</a>
-                  </td>
-                </tr>
-              {% endfor %}
-            </tbody>
-          </table>
-        </div>
+            {% endfor %}
+          </tbody>
+        </table>
       {% else %}
-        <p class="text-muted mb-0 p-3">No hay órdenes registradas.</p>
+        <div class="text-center py-5">
+          <p class="text-muted">No hay órdenes registradas.</p>
+          <a href="{% url 'ordenes_crear' %}" class="btn btn-cr-primary">Crear primera orden</a>
+        </div>
       {% endif %}
     </div>
-  </div>
+  </section>
+</main>
 {% endblock %}

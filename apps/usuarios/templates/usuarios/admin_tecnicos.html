@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Admin Técnicos{% endblock %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/dashboards/admin/dashboard.css' %}">
+<style>
+  .admin-panel-card { border-radius: 15px; box-shadow: 0 10px 26px rgba(15, 23, 42, 0.17); }
+  .admin-panel-card .table thead th { border-bottom: 2px solid #e2e8f0; }
+</style>
+{% endblock %}
+{% block content %}
+<main>
+  <section class="container mt-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <h1 class="h2">Administración de Técnicos</h1>
+      <a href="{% url 'dashboard_tecnico' %}" class="btn btn-outline-secondary btn-sm">Volver a panel</a>
+    </div>
+
+    <div class="table-responsive admin-panel-card p-3 mb-5">
+      <table class="table align-middle tabla-dashboard mb-0">
+        <thead>
+          <tr>
+            <th>Usuario</th>
+            <th>Correo</th>
+            <th>Teléfono</th>
+            <th>Activo</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for tecnico in tecnicos %}
+          <tr>
+            <td>{{ tecnico.usuario.username }}</td>
+            <td>{{ tecnico.usuario.correo }}</td>
+            <td>{{ tecnico.usuario.telefono }}</td>
+            <td>{% if tecnico.activo %}<span class="badge bg-success">Sí</span>{% else %}<span class="badge bg-danger">No</span>{% endif %}</td>
+            <td>
+              <div class="d-flex gap-2">
+                <form method="post" action="{% url 'toggle_tecnico_activo' tecnico.id %}">
+                  {% csrf_token %}
+                  <button type="submit" class="btn btn-sm btn-outline-primary">{% if tecnico.activo %}Desactivar{% else %}Activar{% endif %}</button>
+                </form>
+                <form method="post" action="{% url 'borrar_tecnico' tecnico.id %}">
+                  {% csrf_token %}
+                  <button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('¿Eliminar técnico?');">Borrar</button>
+                </form>
+              </div>
+            </td>
+          </tr>
+          {% empty %}
+          <tr>
+            <td colspan="5" class="text-center">No hay técnicos registrados.</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </section>
+</main>
+{% endblock %}

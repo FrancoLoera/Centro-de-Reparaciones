@@ -1,0 +1,93 @@
+/* Forms Styling */
+
+.form-label {
+    font-weight: 600;
+    color: #1f1f1f;
+    margin-bottom: 0.75rem;
+}
+
+.form-control,
+.form-select {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 10px 14px;
+    font-size: 0.95rem;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.form-control:focus,
+.form-select:focus {
+    border-color: #1f1f1f;
+    box-shadow: 0 0 0 3px rgba(31, 31, 31, 0.1);
+    outline: none;
+}
+
+.form-text {
+    font-size: 0.85rem;
+    color: #666;
+}
+
+.text-danger {
+    color: #555;
+}
+
+.form-card {
+    background: white;
+    border-radius: 16px;
+    border: none;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+    padding: 2rem;
+}
+
+.form-card-header {
+    font-size: 1.8rem;
+    font-weight: 300;
+    margin-bottom: 2rem;
+    color: #1f1f1f;
+}
+
+.btn-group-form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+.btn {
+    border-radius: 8px;
+    font-weight: 500;
+    padding: 10px 20px;
+    transition: all 0.2s;
+}
+
+.btn-cr-primary {
+    background-color: #1f1f1f;
+    border-color: #1f1f1f;
+    color: white;
+}
+
+.btn-cr-primary:hover {
+    background-color: #44474b;
+    border-color: #44474b;
+}
+
+.btn-outline-secondary {
+    border-color: #ddd;
+    color: #666;
+}
+
+.btn-outline-secondary:hover {
+    border-color: #1f1f1f;
+    color: #1f1f1f;
+    background-color: transparent;
+}
+
+.form-error {
+    background-color: #f5f5f5;
+    color: #555;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    font-size: 0.9rem;
+}

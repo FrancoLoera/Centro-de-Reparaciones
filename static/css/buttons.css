@@ -1,0 +1,158 @@
+/* Button Overrides for Bootstrap 5 */
+
+/* Primary Button Styles */
+.btn-primary,
+.btn-cr-primary {
+    background-color: #1f1f1f !important;
+    border-color: #1f1f1f !important;
+    color: white !important;
+}
+
+.btn-primary:hover,
+.btn-cr-primary:hover,
+.btn-primary:active,
+.btn-cr-primary:active {
+    background-color: #444 !important;
+    border-color: #444 !important;
+    color: white !important;
+}
+
+.btn-primary:focus,
+.btn-cr-primary:focus {
+    background-color: #1f1f1f !important;
+    border-color: #1f1f1f !important;
+    color: white !important;
+    box-shadow: 0 0 0 0.25rem rgba(31, 31, 31, 0.25) !important;
+}
+
+/* Secondary Outline Button Styles */
+.btn-outline-secondary {
+    border-color: #ddd !important;
+    color: #666 !important;
+}
+
+.btn-outline-secondary:hover {
+    border-color: #1f1f1f !important;
+    color: #1f1f1f !important;
+    background-color: #f8f8f8 !important;
+}
+
+.btn-outline-secondary:active {
+    border-color: #1f1f1f !important;
+    color: white !important;
+    background-color: #444 !important;
+}
+
+/* Danger Button Replacement with Gray */
+.btn-danger {
+    background-color: #555 !important;
+    border-color: #555 !important;
+    color: white !important;
+}
+
+.btn-danger:hover {
+    background-color: #666 !important;
+    border-color: #666 !important;
+    color: white !important;
+}
+
+.btn-danger:focus {
+    background-color: #555 !important;
+    border-color: #555 !important;
+    color: white !important;
+    box-shadow: 0 0 0 0.25rem rgba(85, 85, 85, 0.25) !important;
+}
+
+/* Outline Danger */
+.btn-outline-danger {
+    border-color: #ddd !important;
+    color: #666 !important;
+}
+
+.btn-outline-danger:hover {
+    border-color: #555 !important;
+    color: white !important;
+    background-color: #555 !important;
+}
+
+.btn-outline-danger:active {
+    border-color: #555 !important;
+    color: white !important;
+    background-color: #555 !important;
+}
+
+/* Light Button Styles */
+.btn-light {
+    background-color: #f8f8f8 !important;
+    border-color: #ddd !important;
+    color: #333 !important;
+}
+
+.btn-light:hover {
+    background-color: #e9e9e9 !important;
+    border-color: #ccc !important;
+    color: #333 !important;
+}
+
+/* Link Button */
+.btn-link {
+    color: #1f1f1f !important;
+    text-decoration: none !important;
+}
+
+.btn-link:hover {
+    color: #555 !important;
+    text-decoration: underline !important;
+}
+
+/* Disabled State */
+.btn:disabled,
+.btn.disabled {
+    background-color: #ddd !important;
+    border-color: #ddd !important;
+    color: #999 !important;
+    cursor: not-allowed !important;
+}
+
+/* Button Groups */
+.btn-group .btn,
+.btn-group-vertical .btn {
+    border-radius: 8px !important;
+    margin-right: 0.5rem;
+}
+
+/* Form Submit Buttons */
+button[type="submit"] {
+    border-radius: 8px !important;
+}
+
+/* Ensure buttons have proper sizing */
+.btn {
+    padding: 10px 20px !important;
+    font-weight: 500 !important;
+    border-radius: 8px !important;
+    transition: all 0.2s ease !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    white-space: nowrap !important;
+    text-decoration: none !important;
+    cursor: pointer !important;
+    border: 1px solid transparent !important;
+}
+
+/* Style anchor tags as buttons */
+a.btn {
+    display: inline-flex !important;
+}
+
+.btn-sm {
+    padding: 6px 12px !important;
+    font-size: 0.875rem !important;
+}
+
+.btn-lg {
+    padding: 12px 28px !important;
+    font-size: 1.125rem !important;
+    width: auto !important;
+}

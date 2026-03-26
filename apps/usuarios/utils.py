@@ -36,3 +36,23 @@ def _respuesta_no_tecnico(request):
         },
         status=403,
     )
+
+
+def solo_staff(view_func):
+    """Acceso solo staff (administradores)."""
+    @wraps(view_func)
+    def _wrapped(request, *args, **kwargs):
+        if not request.user.is_authenticated:
+            return redirect_to_login(request.get_full_path(), settings.LOGIN_URL)
+        if not request.user.is_staff:
+            from django.shortcuts import render
+
+            return render(
+                request,
+                "usuarios/sin_acceso_tecnico.html",
+                {"es_staff": request.user.is_staff},
+                status=403,
+            )
+        return view_func(request, *args, **kwargs)
+
+    return _wrapped

@@ -1,29 +1,50 @@
 {% extends "base.html" %}
+{% load static %}
 {% block title %}{% if form.instance.pk %}Editar{% else %}Nuevo{% endif %} cliente{% endblock %}
+{% block extra_css %}<link rel="stylesheet" href="{% static 'css/forms.css' %}">{% endblock %}
 {% block content %}
-  <div class="row justify-content-center">
-    <div class="col-lg-7">
-      <div class="card card-cr">
-        <div class="card-header">{% if form.instance.pk %}Editar cliente{% else %}Registrar cliente{% endif %}</div>
-        <div class="card-body">
+<main>
+  <section class="container mt-5 mb-5">
+    <div class="row justify-content-center">
+      <div class="col-lg-7">
+        <div class="form-card">
+          <h1 class="form-card-header">{% if form.instance.pk %}Editar cliente{% else %}Cliente nuevo{% endif %}</h1>
           <form method="post" novalidate>
             {% csrf_token %}
+            {% if form.non_field_errors %}
+              <div class="form-error">
+                {% for error in form.non_field_errors %}
+                  <div>{{ error }}</div>
+                {% endfor %}
+              </div>
+            {% endif %}
+            
             {% for field in form %}
               <div class="mb-3">
                 <label class="form-label" for="{{ field.id_for_label }}">{{ field.label }}</label>
                 {{ field }}
-                {% if field.errors %}<div class="text-danger small">{{ field.errors }}</div>{% endif %}
-                {% if field.help_text %}<div class="form-text">{{ field.help_text }}</div>{% endif %}
+                {% if field.errors %}
+                  <div class="text-danger small mt-2">
+                    {% for error in field.errors %}
+                      <div>{{ error }}</div>
+                    {% endfor %}
+                  </div>
+                {% endif %}
+                {% if field.help_text %}
+                  <div class="form-text">{{ field.help_text }}</div>
+                {% endif %}
               </div>
             {% endfor %}
-            <div class="d-flex flex-wrap gap-2 mt-4">
+            
+            <div class="btn-group-form">
               <button type="submit" class="btn btn-cr-primary">Guardar</button>
-              <a href="{% url 'clientes_lista' %}" class="btn btn-outline-secondary">Ver clientes</a>
-              <a href="{% url 'dashboard_tecnico' %}" class="btn btn-link text-secondary">Panel</a>
+              <a href="{% url 'clientes_lista' %}" class="btn btn-outline-secondary">Ver listado</a>
+              <a href="{% url 'dashboard_tecnico' %}" class="btn btn-outline-secondary">  Panel</a>
             </div>
           </form>
         </div>
       </div>
     </div>
-  </div>
+  </section>
+</main>
 {% endblock %}

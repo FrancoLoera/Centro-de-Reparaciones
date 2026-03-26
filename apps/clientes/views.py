@@ -36,3 +36,17 @@ def crear_cliente(request):
         form = ClienteForm()
 
     return render(request, "clientes/form_cliente.html", {"form": form})
+
+
+@solo_tecnicos
+def editar_cliente(request, pk):
+    cliente = Cliente.objects.get(pk=pk)
+    if request.method == "POST":
+        form = ClienteForm(request.POST, instance=cliente)
+        if form.is_valid():
+            form.save()
+            return redirect("clientes_lista")
+    else:
+        form = ClienteForm(instance=cliente)
+
+    return render(request, "clientes/form_cliente.html", {"form": form, "cliente": cliente})
