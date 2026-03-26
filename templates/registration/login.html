@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Iniciar Sesión{% endblock %}
+{% block extra_css %} <link rel="stylesheet" href="{% static 'usuarios/css/login.css' %}"> {% endblock %}
+
+{% block content %}
+<main class="vh-100 d-flex align-items-center justify-content-center">
+<section>
+    <div class="container p-5 rounded shadow-sm login-card" style="background-color: #FFF">
+        <div class="row">
+            <div class="col-12">
+                <h1 class="mb-4">Iniciar Sesión</h1>
+                <form method="post" style="z-index: 2">
+                    {% csrf_token %}
+
+                    <div class="mb-3 d-flex flex-column">
+                        
+                        <label class="form_label" for="id_username">Correo Electrónico</label>
+                        {{ form.username }}
+                        {{ form.username.errors }}
+                    </div>
+
+                    <div class="mb-3 d-flex flex-column">
+                        
+                        <label class="form_label" for="id_password">Contraseña</label>
+                        {{ form.password }}
+                        {{ form.password.errors }}
+                    </div>
+                    {% if form.non_field_errors %}
+                        <div class="alert alert-danger">
+                            {{ form.non_field_errors }}
+                        </div>
+                    {% endif %}
+                    <button class="btn-enviar btn w-100 text-white mt-3" type="submit">Ingresar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+</main>
+{% endblock %}
+
+{% block extra_js %}{% endblock %}

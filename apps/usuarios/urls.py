@@ -1,16 +1,27 @@
 from django.urls import path
-
-from .views import (
-    LoginTecnicoView,
-    LogoutTecnicoView,
-    dashboard_tecnico,
-    portal_publico,
-)
-
+from django.shortcuts import redirect
+from django.contrib.auth import views as auth_views
+from .forms import LoginForm
+from django.contrib.auth.views import LogoutView
+from .views import login_redirect_view, dashboard_tecnico, dashboard_admin
 
 urlpatterns = [
-    path("", portal_publico, name="portal_publico"),
-    path("acceder/", LoginTecnicoView.as_view(), name="login_tecnico"),
-    path("salir/", LogoutTecnicoView.as_view(), name="logout_tecnico"),
-    path("panel/", dashboard_tecnico, name="dashboard_tecnico"),
+    path("redirect/", login_redirect_view, name="login_redirect"),
+    path("", lambda request: redirect("login")),
+    path(
+        "logout/",
+        LogoutView.as_view(next_page="login"),
+        name="logout"
+    ),
+    path(
+        "login/",
+        auth_views.LoginView.as_view(
+            template_name="registration/login.html",
+            authentication_form=LoginForm,
+            redirect_authenticated_user=True
+        ),
+        name="login"
+    ),
+    path("panel-tecnico/", dashboard_tecnico, name="dashboard_tecnico"),
+    path("panel-admin/", dashboard_admin, name="dashboard_admin"),
 ]

@@ -1,56 +1,51 @@
-from django.contrib.auth.forms import AuthenticationForm
-from django.contrib.auth.views import LoginView, LogoutView
-from django.shortcuts import redirect, render
-
-from .utils import es_tecnico, solo_tecnicos
+from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required
 from apps.ordenes.models import Orden
 from apps.seguimiento.models import EstatusOrdenDispositivo
 
 
-class LoginTecnicoForm(AuthenticationForm):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.fields["username"].widget.attrs.setdefault("class", "form-control")
-        self.fields["password"].widget.attrs.setdefault("class", "form-control")
+@login_required
+def login_redirect_view(request):
+    user = request.user
+    
+    if user.is_superuser:
+        return redirect("admin:index")
+    
+    if hasattr(user, "perfil_tecnico"):
+        return redirect("dashboard_tecnico")
+    
+    return redirect("dashboard_admin")
 
-
-def portal_publico(request):
-    """
-    Entrada publica: sin listados ni datos de negocio.
-    Visitante (cliente potencial) no ve el panel; solo mensaje y acceso a login de tecnicos.
-    """
-    if request.user.is_authenticated:
-        if es_tecnico(request.user):
-            return redirect("dashboard_tecnico")
-        if request.user.is_staff or request.user.is_superuser:
-            return redirect("admin:index")
-        return _sin_perfil_tecnico(request)
-    return render(request, "usuarios/portal_publico.html")
-
-
-def _sin_perfil_tecnico(request):
-    from django.shortcuts import render
-
-    return render(
-        request,
-        "usuarios/sin_acceso_tecnico.html",
-        {"es_staff": request.user.is_staff},
-        status=403,
-    )
-
-
-class LoginTecnicoView(LoginView):
-    template_name = "usuarios/login_tecnico.html"
-    authentication_form = LoginTecnicoForm
-    redirect_authenticated_user = True
-
-
-class LogoutTecnicoView(LogoutView):
-    next_page = "/"
-
-
-@solo_tecnicos
+@login_required
 def dashboard_tecnico(request):
+
+    if not hasattr(request.user, "perfil_tecnico"):
+        return redirect("login_redirect")
+
     ordenes_recientes = Orden.objects.select_related("cliente", "dispositivo", "estatus").order_by("-id_orden")[:10]
     estatuses = EstatusOrdenDispositivo.objects.all().order_by('nombre')
     return render(request, "usuarios/dashboard_tecnico.html", {"ordenes_recientes": ordenes_recientes, "estatuses": estatuses})
+
+@login_required
+def dashboard_admin(request):
+
+    if hasattr(request.user, "perfil_tecnico"):
+        return redirect("login_redirect")
+
+    ordenes = (
+        Orden.objects
+        .select_related(
+            "cliente",
+            "dispositivo",
+            "estatus"
+        )
+        .order_by("-id_orden")[:5]
+    )
+
+    return render(
+        request,
+        "dashboards/admin/dashboard.html",
+        {
+            "ordenes": ordenes
+        }
+    )

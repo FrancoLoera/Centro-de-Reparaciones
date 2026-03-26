@@ -1,223 +1,26 @@
-{% load usuario_extras %}
+{% load static %}
 <!DOCTYPE html>
-<html lang="es">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>{% block title %}Centro de reparaciones{% endblock %}</title>
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
-      crossorigin="anonymous"
-    />
-    <style>
-      :root {
-        --cr-red: #b91c1c;
-        --cr-red-dark: #7f1d1d;
-        --cr-gray-100: #f3f4f6;
-        --cr-gray-600: #4b5563;
-        --cr-gray-800: #1f2937;
-        --cr-gray-900: #111827;
-      }
-      body {
-        background: var(--cr-gray-100);
-        color: var(--cr-gray-900);
-      }
-      .navbar-cr {
-        background: linear-gradient(
-          135deg,
-          var(--cr-red-dark) 0%,
-          var(--cr-red) 55%,
-          #991b1b 100%
-        );
-        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.15);
-      }
-      .navbar-cr .navbar-brand {
-        font-weight: 700;
-        letter-spacing: 0.02em;
-      }
-      .navbar-cr .nav-link {
-        color: rgba(255, 255, 255, 0.92) !important;
-      }
-      .navbar-cr .nav-link:hover {
-        color: #fff !important;
-      }
-      .footer-cr {
-        background: var(--cr-gray-800);
-        color: #d1d5db;
-        border-top: 3px solid var(--cr-red);
-      }
-      .footer-cr a {
-        color: #fca5a5;
-        text-decoration: none;
-      }
-      .footer-cr a:hover {
-        color: #fecaca;
-        text-decoration: underline;
-      }
-      .card-cr {
-        border: none;
-        box-shadow: 0 0.25rem 1rem rgba(17, 24, 39, 0.08);
-        border-top: 4px solid var(--cr-red);
-      }
-      .card-cr .card-header {
-        background: linear-gradient(90deg, #e5e7eb 0%, #f9fafb 100%);
-        border-bottom: 1px solid #d1d5db;
-        color: var(--cr-gray-800);
-        font-weight: 600;
-      }
-      .table-cr thead {
-        background: #e5e7eb;
-        color: var(--cr-gray-800);
-      }
-      .btn-cr-primary {
-        background-color: var(--cr-red);
-        border-color: var(--cr-red-dark);
-        color: #fff;
-      }
-      .btn-cr-primary:hover {
-        background-color: #991b1b;
-        border-color: var(--cr-red-dark);
-        color: #fff;
-      }
-      .btn-outline-cr {
-        border-color: var(--cr-red);
-        color: var(--cr-red);
-      }
-      .btn-outline-cr:hover {
-        background-color: var(--cr-red);
-        color: #fff;
-      }
-    </style>
+<html lang="en" translate="no">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Título de Página{% endblock %}</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&family=Playwrite+IE:wght@100..400&family=Rubik:ital,wght@0,300..900;1,300..900&display=swap" rel="stylesheet">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
     {% block extra_css %}{% endblock %}
-  </head>
-  <body class="d-flex flex-column min-vh-100">
-    <header>
-      <nav class="navbar navbar-expand-lg navbar-dark navbar-cr">
-        <div class="container">
-          <a class="navbar-brand" href="{% url 'portal_publico' %}">
-            Centro de reparaciones
-          </a>
-          <button
-            class="navbar-toggler"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#navbarMain"
-            aria-controls="navbarMain"
-            aria-expanded="false"
-            aria-label="Toggle navigation"
-          >
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarMain">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-              <li class="nav-item">
-                <a class="nav-link" href="{% url 'portal_publico' %}">Inicio</a>
-              </li>
-              {% if user|es_tecnico %}
-                <li class="nav-item">
-                  <a class="nav-link" href="{% url 'dashboard_tecnico' %}">Panel</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="{% url 'clientes_lista' %}">Clientes</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="{% url 'dispositivos_lista' %}"
-                    >Dispositivos</a
-                  >
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="{% url 'ordenes_lista' %}">Órdenes</a>
-                </li>
-              {% endif %}
-            </ul>
-            <ul class="navbar-nav ms-auto">
-              {% if user.is_authenticated %}
-                {% if user|es_tecnico %}
-                  <li class="nav-item">
-                    <span class="navbar-text text-white-50 small me-2 d-none d-md-inline">
-                      {{ user.correo }}
-                    </span>
-                  </li>
-                {% endif %}
-                <li class="nav-item">
-                  <form
-                    method="post"
-                    action="{% url 'logout_tecnico' %}"
-                    class="d-inline"
-                  >
-                    {% csrf_token %}
-                    <button type="submit" class="btn btn-sm btn-outline-light">
-                      Cerrar sesión
-                    </button>
-                  </form>
-                </li>
-              {% else %}
-                <li class="nav-item">
-                  <a class="nav-link" href="{% url 'login_tecnico' %}">Acceso técnicos</a>
-                </li>
-              {% endif %}
-            </ul>
-          </div>
-        </div>
-      </nav>
-      {% block banner_extra %}{% endblock %}
-    </header>
-
-    <main class="flex-grow-1 py-4">
-      <div class="container">
-        {% if messages %}
-          {% for message in messages %}
-            <div
-              class="alert alert-{% if message.tags == 'error' %}danger{% elif message.tags == 'success' %}success{% elif message.tags == 'warning' %}warning{% else %}info{% endif %} alert-dismissible fade show"
-              role="alert"
-            >
-              {{ message }}
-              <button
-                type="button"
-                class="btn-close"
-                data-bs-dismiss="alert"
-                aria-label="Cerrar"
-              ></button>
-            </div>
-          {% endfor %}
-        {% endif %}
-        {% block content %}{% endblock %}
-      </div>
-    </main>
-
-    <footer class="footer-cr mt-auto py-4">
-      <div class="container">
-        <div class="row g-3">
-          <div class="col-md-6">
-            <strong class="text-white">Centro de reparaciones</strong>
-            <p class="small mb-0 mt-2 text-secondary">
-              Gestión interna de clientes, equipos y órdenes. El acceso público está
-              restringido.
-            </p>
-          </div>
-          <div class="col-md-6 text-md-end">
-            <p class="small mb-1">
-              <a href="{% url 'portal_publico' %}">Inicio</a>
-              {% if user|es_tecnico %}
-                ·
-                <a href="{% url 'dashboard_tecnico' %}">Panel técnico</a>
-              {% endif %}
-            </p>
-            <p class="small text-secondary mb-0">
-              © {% now "Y" %} — Taller · Colores institucionales rojo y gris
-            </p>
-          </div>
-        </div>
-      </div>
-    </footer>
-
-    <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-      integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-      crossorigin="anonymous"
-    ></script>
+</head>
+<body>
+    {% block content %}{% endblock %}
     {% block extra_js %}{% endblock %}
-  </body>
+</body>
 </html>

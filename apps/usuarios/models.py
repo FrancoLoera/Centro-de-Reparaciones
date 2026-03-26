@@ -1,49 +1,33 @@
-from django.contrib.auth.models import AbstractUser, UserManager
+from django.contrib.auth.models import AbstractUser
 from django.db import models
 from apps.catalogos.models import Tipo_Soporte, Tipo_Dispositivo
 
-
-class UsuarioManager(UserManager):
-    """
-    El login usa el campo `correo` (USERNAME_FIELD). Normalizamos y buscamos
-    sin depender de mayusculas en el dominio para evitar fallos de autenticacion.
-    """
-
-    def get_by_natural_key(self, username):
-        nk = self.normalize_email(username)
-        return self.get(**{f"{self.model.USERNAME_FIELD}__iexact": nk})
-
-
 class Usuario(AbstractUser):
-    username = models.CharField(max_length = 50) # username viene de AbstractUser
-    telefono = models.CharField(max_length = 20, unique = True)
-    correo = models.EmailField(unique = True)
-    
-    USERNAME_FIELD = 'correo'
-    REQUIRED_FIELDS = ['username', 'telefono']
 
-    objects = UsuarioManager()
-    
-    def save(self, *args, **kwargs):
-        # AbstractUser trae `email`; el login es por `correo`. Evita crear solo
-        # `email` en admin y dejar `correo` vacio o distinto.
-        if (
-            not self.correo
-            and getattr(self, "email", None)
-        ):
-            self.correo = self.email
-        if self.correo:
-            self.correo = self.__class__.objects.normalize_email(self.correo)
-            self.email = self.correo
-        super().save(*args, **kwargs)
-    
+    telefono = models.CharField(max_length=20, unique=True)
+
+    email = models.EmailField(unique=True)
+
+    USERNAME_FIELD = "email"
+    REQUIRED_FIELDS = ["username"]
+
     def __str__(self):
-        return f"{self.username} - {self.correo}"
+        return f"{self.username} - {self.email}"
     
 class Tecnico(models.Model):
     usuario = models.OneToOneField(Usuario, on_delete = models.CASCADE, related_name = 'perfil_tecnico')
     
     activo = models.BooleanField(default = True) # is_active solo nos sirve para verificar que pueda ingresar al sistema. activo sirve para saber que puede recibir órdenes
+    
+    def soportes_por_dispositivo(self, dispositivo):
+        soportes = self.especializaciones.filter(tipo_dispositivo = dispositivo).values_list('tipo_soporte', flat = True)
+        
+        soportes = list(soportes)
+        
+        if Tipo_Soporte.HARDWARE in soportes and Tipo_Soporte.SOFTWARE in soportes:
+            return "AMBOS"
+        
+        return soportes
     
     def __str__(self):
         return f"Tecnico: {self.usuario.username}"
