@@ -60,6 +60,38 @@
     transition: all 0.2s;
 }
 
+.form-card {
+    width: 100%;
+    max-width: 900px;
+}
+
+.form-control,
+.form-select {
+    width: 100%;
+}
+
+@media (max-width: 768px) {
+    .form-card {
+        padding: 1.5rem;
+    }
+
+    .form-card-header {
+        font-size: 1.6rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .btn-group-form {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .btn-group-form .btn,
+    .btn-group-form .boton-panel {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
 .btn-cr-primary {
     background-color: #1f1f1f;
     border-color: #1f1f1f;

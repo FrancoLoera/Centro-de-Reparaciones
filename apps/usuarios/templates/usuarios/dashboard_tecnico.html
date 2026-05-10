@@ -5,9 +5,9 @@
 
 {% block content %}
 <main>
-    <section class="container d-flex flex-column align-items-center justify-content-center" style="height: 70vh;">
-        <h1 style="font-size: 4rem; font-weight: 100;">Bienvenido, <span style="font-family: 'Playwrite IE'; font-weight: bolder;">{{ request.user.username }}</span></h1>
-        <p style="font-style: italic;">Todo en orden por aquí. ¿Empezamos a gestionar?</p>
+    <section class="container d-flex flex-column align-items-center justify-content-center" style="min-height: 50vh; padding: 2rem 1rem;">
+        <h1 style="font-size: clamp(2rem, 5vw, 4rem); font-weight: 100; text-align: center;">Bienvenido, <span style="font-family: 'Playwrite IE'; font-weight: bolder;">{{ request.user.username }}</span></h1>
+        <p style="font-style: italic; text-align: center;">Todo en orden por aquí. ¿Empezamos a gestionar?</p>
     </section>
 
     <section class="container d-flex flex-column align-items-center justify-content-center">
@@ -77,7 +77,7 @@
     <section class="container d-flex flex-column align-items-center justify-content-center pb-5 w-100">
         <h2 class="mb-0">Gestionar registros</h2>
         <div class="row mt-4 row-gap-4 w-100">
-            <div class="col-4 d-flex">
+            <div class="col-md-4 col-12 d-flex">
                 <div class="carta-elementos d-flex flex-column gap-2 flex-fill">
                     <div class="d-flex gap-2 align-items-end mb-2"><i class="bi bi-pc-display fs-2"></i><p class="mb-0 pb-1 fs-4 fw-bold">Dispositivos</p></div>
                     <a class="d-flex justify-content-between" href="{% url 'dispositivos_lista' %}"><span>Dispositivos</span><i class="bi bi-caret-right-fill"></i></a>
@@ -85,14 +85,14 @@
                     <a class="d-flex justify-content-between" href="{% url 'marcas_lista' %}"><span>Marcas</span><i class="bi bi-caret-right-fill"></i></a>
                 </div>
             </div>
-            <div class="col-4 d-flex">
+            <div class="col-md-4 col-12 d-flex">
                 <div class="carta-elementos d-flex flex-column gap-2 flex-fill">
                     <div class="d-flex gap-2 align-items-end mb-2"><i class="bi bi-file-text fs-2"></i><p class="mb-0 pb-1 fs-4 fw-bold">Órdenes</p></div>
                     <p>Administra y da seguimiento a las órdenes registradas.</p>
                     <a class="align-self-start" href="{% url 'ordenes_lista' %}">Consultar panel<i class="bi bi-caret-right-fill ms-1"></i></a>
                 </div>
             </div>
-            <div class="col-4 d-flex">
+            <div class="col-md-4 col-12 d-flex">
                 <div class="carta-elementos d-flex flex-column gap-2 flex-fill">
                     <div class="d-flex gap-2 align-items-end mb-2"><i class="bi bi-person-fill fs-2"></i><p class="mb-0 pb-1 fs-4 fw-bold">Clientes</p></div>
                     <p>Consulta y gestiona la información de tus clientes.</p>

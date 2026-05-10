@@ -232,3 +232,171 @@ button.btn-enviar:hover {
 .boton-panel:hover {
     color: #6f6f6f;
 }
+
+.table-responsive {
+    overflow-x: auto;
+}
+
+.tabla-dashboard tbody td,
+.tabla-dashboard thead th {
+    white-space: normal;
+}
+
+@media (max-width: 1200px) {
+    .floating-header {
+        width: calc(100% - 24px);
+        left: 50%;
+        transform: translateX(-50%);
+    }
+
+    .header-pill {
+        flex-wrap: wrap;
+        justify-content: center;
+        padding: 12px 14px;
+    }
+
+    .menu-pill {
+        padding: 9px 16px;
+        font-size: 0.95rem;
+    }
+
+    .submenu {
+        min-width: 100%;
+        left: 0;
+        transform: translateY(8px);
+    }
+}
+
+@media (max-width: 768px) {
+    .floating-header {
+        top: 10px;
+    }
+
+    .header-pill {
+        gap: 0.5rem;
+        padding: 10px 10px;
+    }
+
+    .menu-pill {
+        white-space: normal;
+        justify-content: center;
+        width: auto;
+        padding: 8px 14px;
+    }
+
+    .menu-item {
+        width: 100%;
+    }
+
+    .submenu {
+        position: static;
+        transform: none;
+        opacity: 1;
+        pointer-events: auto;
+        width: 100%;
+        margin-top: 0.5rem;
+        padding: 12px;
+    }
+
+    .carta-elementos {
+        padding: 1.5rem;
+        width: 100%;
+    }
+
+    .icono-tabla {
+        width: 34px;
+        height: 34px;
+    }
+
+    .table {
+        font-size: 0.85rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .header-pill {
+        padding: 10px 8px;
+    }
+
+    .menu-pill {
+        width: 100%;
+        text-align: center;
+    }
+
+    .floating-logout {
+        padding: 10px 12px;
+        font-size: 0.95rem;
+    }
+
+    .tabla-dashboard thead th {
+        font-size: 0.75rem;
+        padding: 8px 6px;
+    }
+
+    .tabla-dashboard tbody td {
+        font-size: 0.8rem;
+        padding: 8px 6px;
+    }
+
+    main.vh-100 {
+        min-height: auto;
+        height: auto;
+    }
+
+    .carta-elementos {
+        margin-bottom: 1rem;
+    }
+
+    .d-flex.gap-4 {
+        gap: 0.5rem !important;
+    }
+
+    .fs-2 {
+        font-size: 1.3rem !important;
+    }
+
+    .fs-4 {
+        font-size: 1rem !important;
+    }
+
+    /* Improve floating header layout on very small screens */
+    .floating-header {
+        left: 0;
+        transform: none;
+        width: 100%;
+        flex-direction: column;
+        align-items: stretch;
+        padding: 8px 10px;
+        gap: 0.5rem;
+        box-sizing: border-box;
+    }
+
+    .header-pill {
+        border-radius: 12px;
+        padding: 8px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        justify-content: center;
+    }
+
+    .menu-pill {
+        flex: 1 1 auto;
+        min-width: 120px;
+        padding: 8px 10px;
+        border-radius: 8px;
+        white-space: nowrap;
+        text-align: center;
+        word-break: normal;
+        overflow-wrap: normal;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .floating-logout {
+        align-self: center;
+        padding: 8px 12px;
+    }
+}
+

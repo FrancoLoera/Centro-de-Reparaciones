@@ -18,3 +18,44 @@ body {
     background: linear-gradient(135deg, #F8F8F8 40%, #DDD);
     color: var(--cr-gray-900);
 }
+
+main {
+    min-height: 100vh;
+}
+
+.container {
+    max-width: 1200px;
+    width: 100%;
+}
+
+h1 {
+    font-size: clamp(2rem, 4vw, 3rem);
+    line-height: 1.1;
+}
+
+h2 {
+    font-size: clamp(1.5rem, 3vw, 2.2rem);
+    line-height: 1.25;
+}
+
+p,
+label,
+button,
+a {
+    word-break: break-word;
+}
+
+@media (max-width: 768px) {
+    body {
+        font-size: 0.95rem;
+    }
+
+    main {
+        padding: 0 0.75rem;
+    }
+
+    .container {
+        padding-left: 0.5rem;
+        padding-right: 0.5rem;
+    }
+}
